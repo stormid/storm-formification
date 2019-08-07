@@ -1,0 +1,55 @@
+﻿@using Microsoft.AspNetCore.Html;
+
+@model object
+
+@inject IChoiceDataSourceSelector DataSourceSelector
+
+@functions 
+{
+    async Task<IHtmlContent> GetSelectedItem()
+    {
+        var type = ViewData.ModelMetadata.ModelType;
+
+        if(Nullable.GetUnderlyingType(type) != null)
+        {
+            type = Nullable.GetUnderlyingType(type);
+        }
+
+        if (type?.IsEnum ?? false)
+        {
+            return new StringHtmlContent(Enum.GetName(type, Model));
+        }
+        else if (type.IsGenericType && type.GenericTypeArguments.FirstOrDefault().IsEnum)
+        {
+            var innerType = type.GenericTypeArguments.FirstOrDefault();
+            var enumNames = Enum.GetNames(innerType);
+
+            var col = Model as System.Collections.IEnumerable;
+
+            var tag = new TagBuilder("ul");
+            foreach(var item in col)
+            {
+                var li = new TagBuilder("li");
+                li.InnerHtml.SetContent(item.ToString());
+                tag.InnerHtml.AppendHtml(li);
+            }
+
+            return tag;
+        }
+        else
+        {
+            var value = await DataSourceSelector.GetSelectedItemTextForModelAsync(ViewData);
+            return new StringHtmlContent(value);
+        }
+    }
+}
+
+<div class="form-group">
+    <label asp-for="@Model"></label>
+    <span class="form-control-plain">
+        @if (Model != null)
+        {
+            @await GetSelectedItem()
+        }
+    </span>
+</div>

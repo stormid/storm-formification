@@ -1,0 +1,10 @@
+﻿@model object
+
+@{ 
+    var properties = ViewData.GetCurrentFormProperties();
+}
+
+@foreach (var prop in properties)
+{
+    @Html.FormProperty(prop)
+}

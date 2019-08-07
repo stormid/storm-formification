@@ -1,0 +1,16 @@
+﻿@using Microsoft.AspNetCore.Http
+@model object
+
+@{
+    var modelType = ViewData.ModelMetadata.ModelType;
+
+    if (typeof(IFormFile).IsAssignableFrom(modelType))
+    {
+    <div class="form-group">
+        <label asp-for="@Model"></label>
+        <hint-label class="text text-muted" asp-for="@Model"></hint-label>
+        <input asp-for="@Model" class="form-control-file" />
+        <span asp-validation-for="@Model"></span>
+    </div>
+    }
+}

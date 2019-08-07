@@ -1,0 +1,8 @@
+﻿@model object
+
+<div class="form-group">
+    <label asp-for="@Model"></label>
+    <hint-label class="text text-muted" asp-for="@Model"></hint-label>
+    <select asp-for="@Model" asp-items="@await Html.GetChoices()" class="form-control"></select>
+    <span asp-validation-for="@Model"></span>
+</div>

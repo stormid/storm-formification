@@ -1,0 +1,20 @@
+﻿@using Storm.Formification.Core;
+@using System.Reflection;
+
+@inject IFormLocator FormsLocator
+
+@{
+    ViewData["Title"] = "Home Page";
+
+    var formTypes = FormsLocator.All().Select(t => t.GetCustomAttribute<Forms.InfoAttribute>());
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <div class="list-group mt-5">
+        @foreach (var formType in formTypes)
+        {
+            <a asp-area="Forms" asp-controller="@formType.Slug" class="list-group-item list-group-item-action">@formType.Name</a>
+        }
+    </div>
+</div>

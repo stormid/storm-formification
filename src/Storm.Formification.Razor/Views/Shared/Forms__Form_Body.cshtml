@@ -1,0 +1,17 @@
+﻿@model object
+
+@{
+    var formStructure = ViewData.GetFormStructure();
+}
+
+@if (formStructure.HasSections())
+{
+    @foreach (var section in formStructure.Sections)
+    {
+        @await Html.FormSectionAsync(section)
+    }
+}
+else
+{
+    @await Html.FormPropertiesAsync(formStructure.Properties)
+}

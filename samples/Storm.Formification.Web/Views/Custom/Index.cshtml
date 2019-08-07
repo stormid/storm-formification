@@ -1,0 +1,25 @@
+﻿@using Storm.Formification.Core
+@using Storm.Formification.Web.Forms
+
+<div class="col-md-8 col-lg-6 form-horziontal">
+    <form method="post" enctype="multipart/form-data" asp-antiforgery="true" asp-route-id="@ViewData?["id"]">
+        @await Html.RenderFormPropertiesAsync(new BankAccountForm())
+        <div class="form-row mt-3">
+            <input type="submit" value="Submit" />
+        </div>
+    </form>
+</div>
+
+<div class="col-md-8 col-lg-6 form-horziontal">
+    <form method="post" enctype="multipart/form-data" asp-antiforgery="true" asp-route-id="@ViewData?["id"]">
+        @await Html.RenderFormPropertiesAsync(new ContactForm())
+        <div class="form-row mt-3">
+            <input type="submit" value="Submit" />
+        </div>
+    </form>
+</div>
+
+@section scripts
+{
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

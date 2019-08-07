@@ -1,0 +1,19 @@
+<Project>
+    <PropertyGroup>
+        <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
+        <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
+        <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>    
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <Authors>Phil Oyston, Storm ID</Authors>
+        <Copyright></Copyright>
+        <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageIconUrl>https://stormid.com/content/img/icons/apple-touch-icon.png</PackageIconUrl>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Compile Include="..\..\VersionAssemblyInfo.cs" Link="VersionAssemblyInfo.cs" />
+    </ItemGroup>
+</Project>

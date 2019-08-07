@@ -1,0 +1,17 @@
+﻿@model object
+
+@inject IFormLocator FormLocator
+
+@{
+    var modelType = ViewData.ModelMetadata.ModelType;
+    var formInfo = FormLocator.Info(modelType);
+    if (formInfo != null)
+    {
+        <partial name="Forms_FormHeader" optional="true" model="@formInfo" />
+        @foreach (var prop in ViewData.ModelMetadata.ModelType.GetProperties().Where(p => Attribute.IsDefined(p, typeof(System.ComponentModel.DataAnnotations.DataTypeAttribute))))
+        {
+            @Html.Display(prop.Name)
+        }
+        <partial name="Forms_FormFooter" optional="true" model="@formInfo" />
+    }
+}

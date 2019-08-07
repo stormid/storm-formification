@@ -1,0 +1,8 @@
+﻿@model bool
+
+<div class="form-group">
+    <div class="custom-control custom-switch">
+        <label class="custom-control-label" asp-for="@Model"></label>
+        <span>@(Model ? "Yes" : "No")</span>
+    </div>
+</div>

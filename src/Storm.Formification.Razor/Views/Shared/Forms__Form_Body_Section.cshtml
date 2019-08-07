@@ -1,0 +1,22 @@
+﻿@model object
+
+@{
+    var section = ViewData.GetCurrentFormSection();
+    ViewData.SetCurrentFormProperties(section.Properties);
+    Func<dynamic, object> template = 
+        @<div class="form-group">
+            <partial name="Forms__Form_Body_Properties" />
+        </div>;
+}
+
+@if (string.IsNullOrWhiteSpace(section.Name))
+{
+    @template(Model)
+}
+else
+{
+    <fieldset class="form-group">
+        <legend>@(section.Name)</legend>
+        @template(Model)
+    </fieldset>
+}
