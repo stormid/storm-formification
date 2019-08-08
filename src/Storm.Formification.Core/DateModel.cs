@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 
 namespace Storm.Formification.Core
 {
+    [Obsolete("DateModel should be replaced with either DateTime (nullable is supported)", true)]
     public class DateModel : IValidatableObject
     {
         [Range(1, 31)]

@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using static Storm.Formification.Core.Forms;
 using System;
 using System.ComponentModel;
+using Storm.Formification.Core.Infrastructure;
 
 namespace Storm.Formification.Web.Forms
 {
@@ -41,6 +42,10 @@ namespace Storm.Formification.Web.Forms
         [DisplayName("Date of birth")]
         public DateTime DateOfBirth { get; set; }
 
+        [Date]
+        [HintLabel("Optional")]
+        public DateTime? PreferredDate { get; set; }
+
         [Upload]
         public IFormFile Passport { get; set; }
     }
@@ -49,8 +54,7 @@ namespace Storm.Formification.Web.Forms
     {
         public Validator()
         {
-            RuleFor(r => r.Email).NotEmpty();
-            RuleFor(r => r.DateOfBirth).LessThan(DateTime.UtcNow.Date);
+            RuleFor(r => r.DateOfBirth).LessThan(DateTime.Now.Date);
         }
     }
 }

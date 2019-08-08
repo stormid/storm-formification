@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Storm.Formification.Core;
 using Storm.Formification.Core.Infrastructure;
 using static Storm.Formification.Core.Forms;
@@ -15,7 +16,7 @@ namespace Storm.Formification.WebWithDb.Forms.Preferences
 
         [Section("Personal")]
         [Date]
-        public DateModel DateOfBirth { get; set; }
+        public DateTime DateOfBirth { get; set; }
 
         [Section("Personal")]
         [HintLabel("Select a user")]

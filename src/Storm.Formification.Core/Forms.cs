@@ -31,6 +31,10 @@ namespace Storm.Formification.Core
         [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
         public class UploadAttribute : DataTypeAttribute
         {
+            public string AllowedExtensions { get; set; }
+
+            public int? MaximumSizeInBytes { get; set; }
+
             public UploadAttribute() : base("Forms__Upload")
             {
 

@@ -15,7 +15,7 @@
         monthValue = monthModelValue?.AttemptedValue;
         yearValue = yearModelValue?.AttemptedValue;
     }
-    else if (Model.HasValue && Model.Value != DateTimeOffset.MinValue && ViewData.ModelMetadata.IsReferenceOrNullableType)
+    else if (Model.HasValue && Model.Value != DateTime.MinValue && ViewData.ModelMetadata.IsReferenceOrNullableType)
     {
         dayValue = Model.Value.ToString("dd");
         monthValue = Model.Value.ToString("MM");
