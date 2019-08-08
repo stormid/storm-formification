@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Storm.Formification.WebWith
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Storm.Formification.Web", "samples\Storm.Formification.Web\Storm.Formification.Web.csproj", "{FBEACEC4-7E11-442C-BAB0-BA461F7CE421}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Storm.Formification.Tests", "tests\Storm.Formification.Tests\Storm.Formification.Tests.csproj", "{EB0348C7-427B-4178-AA8E-CEB6C9002127}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Storm.Formification.Tests", "tests\Storm.Formification.Tests\Storm.Formification.Tests.csproj", "{EB0348C7-427B-4178-AA8E-CEB6C9002127}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -30,7 +30,7 @@ namespace Storm.Formification.Web.Forms
 
         [Date]
         [HintLabel("Must be a valid date")]
-        public DateModel DateField { get; set; }
+        public DateTime DateField { get; set; }
 
         [Upload]
         [HintLabel("Maximum file size of 5MB")]

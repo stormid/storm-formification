@@ -12,7 +12,7 @@ namespace Storm.Formification.Core
             mvcBuilder.AddMvcOptions(o =>
             {
                 o.AddAdditionalMetadataProvider();
-                o.ModelBinderProviders.Insert(0, new DateTimeOffsetModelBinderProvider());
+                o.ModelBinderProviders.Insert(0, new DateTimeModelBinderProvider());
                 o.ModelMetadataDetailsProviders.Add(new HumanizerMetadataProvider());
             });
             return mvcBuilder;

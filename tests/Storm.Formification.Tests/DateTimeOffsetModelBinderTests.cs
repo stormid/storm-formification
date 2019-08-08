@@ -1,7 +1,9 @@
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
 using Microsoft.Extensions.Primitives;
+using Storm.Formification.Core;
 using Storm.Formification.Core.Infrastructure;
 using System;
 using System.Collections.Generic;
@@ -16,9 +18,12 @@ namespace Storm.Formification.Tests
         private static DefaultModelBindingContext GetBindingContext(IValueProvider valueProvider, Type modelType)
         {
             var metadataProvider = new EmptyModelMetadataProvider();
+
+            var metadata = metadataProvider.GetMetadataForType(modelType);
+
             var bindingContext = new DefaultModelBindingContext
             {
-                ModelMetadata = metadataProvider.GetMetadataForType(modelType),
+                ModelMetadata = metadata,
                 ModelName = modelType.Name,
                 ModelState = new ModelStateDictionary(),
                 ValueProvider = valueProvider,
@@ -27,7 +32,7 @@ namespace Storm.Formification.Tests
         }
 
         [Fact]
-        public async Task ShouldNotBindIncompleteValueCollection_MissingDay()
+        public async Task ShouldNotBindIncompleteValueCollectionForDateTime_MissingDay()
         {
             var formCollection = new FormCollection(new Dictionary<string, StringValues>()
             {
@@ -39,7 +44,7 @@ namespace Storm.Formification.Tests
 
             var vp = new FormValueProvider(BindingSource.Form, formCollection, CultureInfo.CurrentCulture);
 
-            var context = GetBindingContext(vp, typeof(DateTimeOffset?));
+            var context = GetBindingContext(vp, typeof(DateTime));
 
             await binder.BindModelAsync(context);
 
@@ -47,7 +52,7 @@ namespace Storm.Formification.Tests
         }
 
         [Fact]
-        public async Task ShouldNotBindIncompleteValueCollection_MissingMonth()
+        public async Task ShouldNotBindIncompleteValueCollectionForDateTime_MissingMonth()
         {
             var formCollection = new FormCollection(new Dictionary<string, StringValues>()
             {
@@ -59,7 +64,7 @@ namespace Storm.Formification.Tests
 
             var vp = new FormValueProvider(BindingSource.Form, formCollection, CultureInfo.CurrentCulture);
 
-            var context = GetBindingContext(vp, typeof(DateTimeOffset?));
+            var context = GetBindingContext(vp, typeof(DateTime));
 
             await binder.BindModelAsync(context);
 
@@ -67,7 +72,7 @@ namespace Storm.Formification.Tests
         }
 
         [Fact]
-        public async Task ShouldNotBindIncompleteValueCollection_MissingYear()
+        public async Task ShouldNotBindIncompleteValueCollectionForDateTime_MissingYear()
         {
             var formCollection = new FormCollection(new Dictionary<string, StringValues>()
             {
@@ -79,7 +84,67 @@ namespace Storm.Formification.Tests
 
             var vp = new FormValueProvider(BindingSource.Form, formCollection, CultureInfo.CurrentCulture);
 
-            var context = GetBindingContext(vp, typeof(DateTimeOffset?));
+            var context = GetBindingContext(vp, typeof(DateTime));
+
+            await binder.BindModelAsync(context);
+
+            context.Result.Model.Should().BeNull();
+        }
+
+        [Fact]
+        public async Task ShouldNotBindIncompleteValueCollectionForNullableDateTime_MissingDay()
+        {
+            var formCollection = new FormCollection(new Dictionary<string, StringValues>()
+            {
+                { "Month", "1" },
+                { "Year", "1990" },
+            });
+
+            var binder = new NullableDateTimeModelBinder();
+
+            var vp = new FormValueProvider(BindingSource.Form, formCollection, CultureInfo.CurrentCulture);
+
+            var context = GetBindingContext(vp, typeof(DateTime));
+
+            await binder.BindModelAsync(context);
+
+            context.Result.Model.Should().BeNull();
+        }
+
+        [Fact]
+        public async Task ShouldNotBindIncompleteValueCollectionForNullableDateTime_MissingMonth()
+        {
+            var formCollection = new FormCollection(new Dictionary<string, StringValues>()
+            {
+                { "Day", "1" },
+                { "Year", "1990" },
+            });
+
+            var binder = new NullableDateTimeModelBinder();
+
+            var vp = new FormValueProvider(BindingSource.Form, formCollection, CultureInfo.CurrentCulture);
+
+            var context = GetBindingContext(vp, typeof(DateTime));
+
+            await binder.BindModelAsync(context);
+
+            context.Result.Model.Should().BeNull();
+        }
+
+        [Fact]
+        public async Task ShouldNotBindIncompleteValueCollectionForNullableDateTime_MissingYear()
+        {
+            var formCollection = new FormCollection(new Dictionary<string, StringValues>()
+            {
+                { "Day", "1" },
+                { "Month", "12" },
+            });
+
+            var binder = new NullableDateTimeModelBinder();
+
+            var vp = new FormValueProvider(BindingSource.Form, formCollection, CultureInfo.CurrentCulture);
+
+            var context = GetBindingContext(vp, typeof(DateTime));
 
             await binder.BindModelAsync(context);
 
@@ -89,7 +154,8 @@ namespace Storm.Formification.Tests
         [Theory]
         [InlineData(1990, 12, 31, true)]
         [InlineData(1990, 13, 31, false)]
-        public async Task ShouldBindDateTimeOffsetAsModel(int? year, int? month, int? day, bool isValid)
+        [InlineData(null, null, null, false)]
+        public async Task ShouldBindDateTimeAsModel(int? year, int? month, int? day, bool isValid)
         {
             var formCollection = new FormCollection(new Dictionary<string, StringValues>()
             {
@@ -102,7 +168,7 @@ namespace Storm.Formification.Tests
 
             var vp = new FormValueProvider(BindingSource.Form, formCollection, CultureInfo.CurrentCulture);
 
-            var context = GetBindingContext(vp, typeof(DateTimeOffset));
+            var context = GetBindingContext(vp, typeof(DateTime));
 
             await binder.BindModelAsync(context);
 
@@ -110,7 +176,7 @@ namespace Storm.Formification.Tests
 
             if (isValid)
             {
-                var dateValue = (DateTimeOffset)context.Result.Model;
+                var dateValue = (DateTime)context.Result.Model;
 
                 dateValue.Date.Day.Should().Be(day);
                 dateValue.Date.Month.Should().Be(month);
@@ -128,8 +194,11 @@ namespace Storm.Formification.Tests
         [Theory]
         [InlineData(1990, 12, 31, true)]
         [InlineData(1990, 13, 31, false)]
+        [InlineData(null, 12, 31, false)]
+        [InlineData(1990, null, 31, false)]
+        [InlineData(1990, 12, null, false)]
         [InlineData(null, null, null, true)]
-        public async Task ShouldBindNullableDateTimeOffsetAsModel(int? year, int? month, int? day, bool isValid)
+        public async Task ShouldBindNullableDateTimeAsModel(int? year, int? month, int? day, bool isValid)
         {
             var formCollection = new FormCollection(new Dictionary<string, StringValues>()
             {
@@ -138,17 +207,17 @@ namespace Storm.Formification.Tests
                 { "Year", year.ToString() },
             });
 
-            var binder = new DateTimeModelBinder();
+            var binder = new NullableDateTimeModelBinder();
 
             var vp = new FormValueProvider(BindingSource.Form, formCollection, CultureInfo.CurrentCulture);
 
-            var context = GetBindingContext(vp, typeof(DateTimeOffset?));
+            var context = GetBindingContext(vp, typeof(DateTime?));
 
             await binder.BindModelAsync(context);
 
             context.ModelState.IsValid.Should().Be(isValid);
 
-            var dateValue = (DateTimeOffset?)context.Result.Model;
+            var dateValue = (DateTime?)context.Result.Model;
 
             if (isValid)
             {

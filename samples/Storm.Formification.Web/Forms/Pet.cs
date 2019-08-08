@@ -1,6 +1,7 @@
 ﻿using Storm.Formification.Core;
 using FluentValidation;
 using static Storm.Formification.Core.Forms;
+using System;
 
 namespace Storm.Formification.Web.Forms
 {
@@ -30,7 +31,7 @@ namespace Storm.Formification.Web.Forms
         public string Name { get; set; }
 
         [Date]
-        public DateModel DateOfBirth { get; set; }
+        public DateTime DateOfBirth { get; set; }
 
         [Choice]
         public PetSpeciesType Species { get; set; }
