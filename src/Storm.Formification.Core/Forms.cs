@@ -80,6 +80,15 @@ namespace Storm.Formification.Core
         }
 
         [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
+        public class NestedAttribute : DataTypeAttribute
+        {
+            public NestedAttribute() : base("Forms__NestedForm")
+            {
+
+            }
+        }
+
+        [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
         public class DateOffsetAttribute : DataTypeAttribute
         {
             public DateOffsetAttribute() : base("Forms__DateTimeOffset")
