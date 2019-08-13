@@ -36,7 +36,26 @@ namespace Storm.Formification.Core
         {
             var properties = formType.GetProperties().Where(p => Attribute.IsDefined(p, typeof(DataTypeAttribute))).ToList();
             var sections = properties.GroupBy(p => p.GetCustomAttribute<Forms.SectionAttribute>()?.Name);
-            return sections.Select(section => new FormSection(section.Key, section.Select(p => new FormProperty(p)))).ToList();
+            return sections.Select(section => new FormSection(section.Key, section.Select(p =>
+            {
+                var formProperty = new FormProperty(p);
+                var triggerAttribute = p.GetCustomAttributes().OfType<Forms.IAmConditionaTriggerAware>()?.FirstOrDefault();
+
+                if(triggerAttribute != null && !string.IsNullOrWhiteSpace(triggerAttribute.ConditionalTrigger))
+                {
+                    formProperty.SetConditionalTrigger(triggerAttribute.ConditionalTrigger);
+                }
+
+                var triggerTargetAttribute = p.GetCustomAttribute<Forms.ConditionalTargetAttribute>();
+
+                if (triggerTargetAttribute != null)
+                {
+                    formProperty.SetConditionalTriggerTarget(triggerTargetAttribute.TriggerKey);
+                }
+
+                return formProperty;
+            })))
+            .ToList();
         }
     }
 }

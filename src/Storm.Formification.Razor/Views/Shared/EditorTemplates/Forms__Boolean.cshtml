@@ -1,8 +1,12 @@
 ﻿@model bool
 
+@{
+    var triggerKey = ViewData.GetCurrentFormProperty()?.GetConditionalTrigger();
+}
+
 <div class="form-group">
     <div class="custom-control custom-switch">
-        <input asp-for="@Model" class="custom-control-input" />
+        <input asp-for="@Model" class="custom-control-input" data-toggle="collapse" data-target="#@(triggerKey)" />
         <label class="custom-control-label" asp-for="@Model"></label>
         <hint-label class="text text-muted" asp-for="@Model"></hint-label>
         <span asp-validation-for="@Model"></span>

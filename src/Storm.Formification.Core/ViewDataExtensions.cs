@@ -1,10 +1,7 @@
-﻿using Storm.Formification.Core.Infrastructure;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
+﻿using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Storm.Formification.Core
 {
@@ -59,6 +56,16 @@ namespace Storm.Formification.Core
             }
 
             return Enumerable.Empty<FormProperty>();
+        }
+
+        public static FormProperty GetCurrentFormProperty(this ViewDataDictionary viewData)
+        {
+            if (viewData.TryGetValue(CurrentPropertiesKey, out var o) && o is IEnumerable<FormProperty> properties)
+            {
+                return properties.FirstOrDefault(p => p.Property.Name == viewData.ModelMetadata.Name);
+            }
+
+            return null;
         }
     }
 }

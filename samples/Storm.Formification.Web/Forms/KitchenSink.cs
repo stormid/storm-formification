@@ -45,7 +45,7 @@ namespace Storm.Formification.Web.Forms
         [Choice]
         public IEnumerable<DayOfWeek> MultiSelect { get; set; }
 
-        [Choice]
+        [Choice(ConditionalTrigger = nameof(ColourSelect))]
         [HintLabel("Be colourful!")]
         public ConsoleColor ColourSelect { get; set; }
 
@@ -56,6 +56,17 @@ namespace Storm.Formification.Web.Forms
         [Choice]
         [ChoiceDataSource(typeof(ListOfOptionsDataSource))]
         public int? FromListOfOptions { get; set; }
+
+        [Boolean(ConditionalTrigger = nameof(TriggeredConditional))]
+        public bool TriggeredConditional { get; set; }
+
+        [Text]
+        [ConditionalTarget(nameof(TriggeredConditional))]
+        public string ConditionallyTriggered { get; set; }
+
+        [Text]
+        [ConditionalTarget(nameof(TriggeredConditional))]
+        public string ConditionallyTriggeredAlso { get; set; }
 
         public class ListOfOptionsDataSource : IChoiceDataSource
         {

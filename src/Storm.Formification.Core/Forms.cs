@@ -11,12 +11,41 @@ namespace Storm.Formification.Core
 {
     public static class Forms
     {
+        public interface IAmConditionaTriggerAware
+        {
+            string ConditionalTrigger { get; set; }
+        }
+
         [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
-        public class ChoiceAttribute : DataTypeAttribute
+        public class ConditionalTriggerAttribute : Attribute
+        {
+            public ConditionalTriggerAttribute(string key)
+            {
+                Key = key;
+            }
+
+            public string Key { get; }
+        }
+
+        [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
+        public class ConditionalTargetAttribute : Attribute
+        {
+            public ConditionalTargetAttribute(string triggerKey)
+            {
+                TriggerKey = triggerKey;
+            }
+
+            public string TriggerKey { get; }
+        }
+
+        [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
+        public class ChoiceAttribute : DataTypeAttribute, IAmConditionaTriggerAware
         {
             public ChoiceAttribute() : base("Forms__Choice")
             {
             }
+
+            public string ConditionalTrigger { get; set; }
         }
 
         [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
@@ -78,12 +107,14 @@ namespace Storm.Formification.Core
         }
 
         [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
-        public class BooleanAttribute : DataTypeAttribute
+        public class BooleanAttribute : DataTypeAttribute, IAmConditionaTriggerAware
         {
             public BooleanAttribute() : base("Forms__Boolean")
             {
 
             }
+
+            public string ConditionalTrigger { get; set; }
         }
 
         [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
