@@ -1,10 +1,21 @@
 ﻿@model object
 
-@{ 
+@{
     var properties = ViewData.GetCurrentFormProperties();
 }
 
 @foreach (var prop in properties)
 {
-    @Html.FormProperty(prop)
+    var triggerTarget = prop.GetConditionalTriggerTarget();
+    if (!string.IsNullOrWhiteSpace(triggerTarget))
+    {
+    <div id="@triggerTarget">
+        @Html.FormProperty(prop)
+    </div>
+    }
+    else
+    {
+        @Html.FormProperty(prop)
+    }
+
 }
