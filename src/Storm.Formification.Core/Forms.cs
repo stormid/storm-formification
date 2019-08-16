@@ -126,18 +126,26 @@ namespace Storm.Formification.Core
             public string ConditionalTrigger { get; set; }
         }
 
-        [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
-        public sealed class InfoAttribute : Attribute
+        public interface IInfo
         {
-            public InfoAttribute(string name)
+            string Slug { get; }
+            string Name { get; }
+            string Id { get; }
+        }
+
+        [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
+        public sealed class InfoAttribute : Attribute, IInfo
+        {
+            public InfoAttribute(string name, string id)
             {
                 Name = name;
+                Id = id;
                 Slug = name.Kebaberize();
             }
 
-            public string Slug { get; }
+            public string Slug { get; set; }
             public string Name { get; }
-            public Guid Version { get; set; }
+            public string Id { get; }
         }
 
         [AttributeUsage(AttributeTargets.Property, Inherited = false, AllowMultiple = false)]

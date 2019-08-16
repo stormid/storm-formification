@@ -8,16 +8,19 @@ namespace Storm.Formification.Core
 {
     public class FormLayoutDescriptor
     {
-        public FormLayoutDescriptor(string name, IReadOnlyList<FormSection> sections)
+        public FormLayoutDescriptor(string id, string name, IReadOnlyList<FormSection> sections)
         {
             Sections = sections.Count > 1 ? sections : Enumerable.Empty<FormSection>();
             Properties = sections.SelectMany(p => p.Properties);
+            Id = id;
             Name = name;
         }
 
-        public FormLayoutDescriptor(Type formType) : this(RetrieveFormName(formType), RetrieveFormProperties(formType))
+        public FormLayoutDescriptor(Type formType) : this(RetrieveFormInfo(formType).Id, RetrieveFormInfo(formType).Name, RetrieveFormSections(formType))
         {
         }
+
+        public string Id { get; }
 
         public string Name { get; }
 
@@ -27,12 +30,12 @@ namespace Storm.Formification.Core
 
         public bool HasSections() => Sections.Any();
 
-        private static string RetrieveFormName(Type formType)
+        private static Forms.IInfo RetrieveFormInfo(Type formType)
         {
-            return formType.GetCustomAttribute<Forms.InfoAttribute>()?.Name;
+            return formType.GetCustomAttribute<Forms.InfoAttribute>() as Forms.IInfo;
         }
 
-        private static IReadOnlyList<FormSection> RetrieveFormProperties(Type formType)
+        private static IReadOnlyList<FormSection> RetrieveFormSections(Type formType)
         {
             var properties = formType.GetProperties().Where(p => Attribute.IsDefined(p, typeof(DataTypeAttribute))).ToList();
             var sections = properties.GroupBy(p => p.GetCustomAttribute<Forms.SectionAttribute>()?.Name);

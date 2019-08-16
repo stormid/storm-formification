@@ -6,7 +6,7 @@ using static Storm.Formification.Core.Forms;
 
 namespace Storm.Formification.WebWithDb.Forms.Preferences
 {
-    [Info("Preferences")]
+    [Info("Preferences", "2a0467a7-ae00-40ef-b1c3-8b009c1b32bb")]
     public class PreferencesForm
     {
         [Section("Personal")]

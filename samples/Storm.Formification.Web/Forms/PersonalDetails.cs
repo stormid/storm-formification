@@ -2,7 +2,7 @@
 
 namespace Storm.Formification.Web.Forms
 {
-    [Info("Personal details")]
+    [Info("Personal details", "c61b2d00-14ae-4973-8892-b55c7c81f4d9")]
     public class PersonalDetailsForm
     {
         [Text]

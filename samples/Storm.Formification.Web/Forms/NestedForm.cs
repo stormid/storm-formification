@@ -7,7 +7,7 @@ using static Storm.Formification.Core.Forms;
 
 namespace Storm.Formification.Web.Forms
 {
-    [Info("Nested form")]
+    [Info("Nested form", "74b22a9a-c708-4d4f-ac38-af2ee47c78f6")]
     public class NestedForm
     {
         [Text]

@@ -24,7 +24,7 @@ namespace Storm.Formification.Web.Forms
         Rabbit,
     }
 
-    [Info("Pet")]
+    [Info("Pet", "d6a6f755-7844-4f01-8c6f-34bf69d3c08c")]
     public class PetForm
     {
         [Text]

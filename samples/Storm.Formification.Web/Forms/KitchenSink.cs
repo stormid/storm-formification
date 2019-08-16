@@ -12,7 +12,7 @@ using static Storm.Formification.Core.Forms;
 
 namespace Storm.Formification.Web.Forms
 {
-    [Info("Kitchen sink")]
+    [Info("Kitchen sink", "85f6c9a9-f223-40ad-8b03-4c655ba761f7")]
     public class KitchenSink
     {
         [Text]
