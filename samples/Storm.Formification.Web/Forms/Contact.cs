@@ -20,7 +20,7 @@ namespace Storm.Formification.Web.Forms
         Female = 2,
     }
 
-    [Info("Contact")]
+    [Info("Contact", "e63b897e-a88f-410a-ba3a-17f446195b85")]
     public class ContactForm
     {
         [Text]
