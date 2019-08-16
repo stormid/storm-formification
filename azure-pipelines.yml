@@ -77,3 +77,25 @@ stages:
         nuGetFeedType: 'internal'
         publishVstsFeed: '$(artifacts.preview.feed)'
         allowPackageConflicts: true
+- stage: PublishRelease
+  displayName: 'Publish Release'
+  dependsOn: build
+  condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/'))
+  jobs:
+  - job: PublishNuGet
+    displayName: 'Publish to NuGet'
+    pool:
+      name: $(internal.pool)
+    steps:   
+    - task: DownloadBuildArtifacts@0
+      inputs:
+        buildType: 'current'
+        downloadType: 'specific'
+        itemPattern: '**'
+        downloadPath: '$(System.ArtifactsDirectory)'
+    - task: NuGetCommand@2
+      inputs:
+        command: 'push'
+        packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+        nuGetFeedType: 'external'
+        publishFeedCredentials: '$(artifacts.nuget.feed)'
