@@ -20,7 +20,15 @@ namespace Storm.Formification.Core.Infrastructure
                     {
                         var items = await dataSource.GetAsync();
                         return items
-                            .Select(c => new SelectListItem(c.Text, c.Value) { Group = new SelectListGroup { Name = c.Group }, Disabled = c.Disabled }) ?? Enumerable.Empty<SelectListItem>();
+                            .GroupBy(c => c.Group)
+                            .SelectMany(c =>
+                            {
+                                SelectListGroup group = string.IsNullOrWhiteSpace(c.Key) ? null : new SelectListGroup { Name = c.Key };
+                                return c.Select(s => new SelectListItem(s.Text, s.Value) {
+                                    Group = group,
+                                    Disabled = s.Disabled
+                                });
+                            }) ?? Enumerable.Empty<SelectListItem>();
                     }
                 }
             }

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace Storm.Formification.Core
 {
@@ -25,7 +26,18 @@ namespace Storm.Formification.Core
 
         public static FormLayoutDescriptor GetFormStructure(this ViewDataDictionary viewData)
         {
-            return new FormLayoutDescriptor(GetFormType(viewData));
+            var formType = GetFormType(viewData);
+
+            //if(formType.GetCustomAttribute<Forms.NestedAttribute>() != null)
+            //{
+            //    var parentFormType = formType.DeclaringType;
+
+            //    var parent
+
+            //    return new FormLayoutDescriptor("", "", Enumerable.Empty<FormSection>().ToList());
+            //}
+
+            return FormLayoutDescriptor.Build(formType);
         }
 
         public static void SetCurrentFormSection(this ViewDataDictionary viewData, FormSection formSection)
@@ -37,6 +49,7 @@ namespace Storm.Formification.Core
         {
             if (viewData.TryGetValue(CurrentSectionKey, out var o) && o is FormSection formSection)
             {
+                viewData.SetCurrentFormProperties(formSection.Properties);
                 return formSection;
             }
 

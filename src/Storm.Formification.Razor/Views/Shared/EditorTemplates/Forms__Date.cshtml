@@ -1,28 +1,5 @@
 ﻿@model DateTime?
 
-@{
-    var dayValue = string.Empty;
-    var monthValue = string.Empty;
-    var yearValue = string.Empty;
-
-    if (!ViewData.ModelState.IsValid)
-    {
-        ViewData.ModelState.TryGetValue(Html.Name("Day"), out var dayModelValue);
-        ViewData.ModelState.TryGetValue(Html.Name("Month"), out var monthModelValue);
-        ViewData.ModelState.TryGetValue(Html.Name("Year"), out var yearModelValue);
-
-        dayValue = dayModelValue?.AttemptedValue;
-        monthValue = monthModelValue?.AttemptedValue;
-        yearValue = yearModelValue?.AttemptedValue;
-    }
-    else if (Model.HasValue && Model.Value != DateTime.MinValue && ViewData.ModelMetadata.IsReferenceOrNullableType)
-    {
-        dayValue = Model.Value.ToString("dd");
-        monthValue = Model.Value.ToString("MM");
-        yearValue = Model.Value.ToString("yyyy");
-    }
-}
-
 <div class="form-group">
     <div class="form-row">
         <label>
@@ -33,15 +10,15 @@
     <div class="form-row">
         <div class="col-md-3">
             <label for="@Html.Id("Day")">Day</label>
-            <input class="form-control" type="number" min="1" max="31" id="@Html.Id("Day")" name="@Html.Name("Day")" value="@dayValue" />
+            <input class="form-control" type="number" min="1" max="31" form-date-field="Day" />
         </div>
         <div class="col-md-3">
             <label for="@Html.Id("Month")">Month</label>
-            <input class="form-control" type="number" min="1 max="12" id="@Html.Id("Month")" name="@Html.Name("Month")" value="@monthValue" />
+            <input class="form-control" type="number" min="1 max="12" form-date-field="Month" />
         </div>
         <div class="col-md-3">
             <label for="@Html.Id("Year")">Year</label>
-            <input class="form-control" type="number" min="1" max="9999" id="@Html.Id("Year")" name="@Html.Name("Year")" value="@yearValue" />
+            <input class="form-control" type="number" min="1" max="9999" form-date-field="Year" />
         </div>
     </div>
     <div class="form-row" asp-validation-summary="ModelOnly"></div>

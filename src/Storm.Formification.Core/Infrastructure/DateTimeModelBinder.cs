@@ -44,7 +44,7 @@ namespace Storm.Formification.Core.Infrastructure
 
             if (string.IsNullOrWhiteSpace(dayValueResult.FirstValue) && string.IsNullOrWhiteSpace(monthValueResult.FirstValue) && string.IsNullOrWhiteSpace(yearValueResult.FirstValue))
             {
-                bindingContext.ModelState.TryAddModelError(bindingContext.ModelName, bindingContext.ModelMetadata.ModelBindingMessageProvider.ValueMustNotBeNullAccessor(bindingContext.ModelMetadata.DisplayName));
+                bindingContext.ModelState.TryAddModelError(bindingContext.ModelName, $"'{bindingContext.ModelMetadata.DisplayName}' must be a valid date");
                 bindingContext.ModelState.SetModelValue(dayPartModelName, dayValueResult);
                 bindingContext.ModelState.SetModelValue(monthPartModelName, monthValueResult);
                 bindingContext.ModelState.SetModelValue(yearPartModelName, yearValueResult);
