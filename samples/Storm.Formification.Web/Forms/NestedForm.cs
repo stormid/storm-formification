@@ -15,27 +15,27 @@ namespace Storm.Formification.Web.Forms
 
         [Nested]
         public NestedSubForm Nested { get; set; }
-    }
 
-    public class NestedSubForm
-    {
-        [Text]
-        public string StringField { get; set; }
+        public class NestedSubForm
+        {
+            [Text]
+            public string StringField { get; set; }
 
-        [Boolean(ConditionalTrigger = nameof(BooleanField))]
-        public bool BooleanField { get; set; }
+            [Boolean(ConditionalTrigger = nameof(BooleanField))]
+            public bool BooleanField { get; set; }
 
-        [Text]
-        [ConditionalTarget(nameof(BooleanField))]
-        public string ConditionalField { get; set; }
+            [Text]
+            [ConditionalTarget(nameof(BooleanField))]
+            public string ConditionalField { get; set; }
 
-        [Nested]
-        [ConditionalTarget(nameof(BooleanField))]
-        public NestedSubSubForm ConditionalForm { get; set; }
-    }
+            [Nested]
+            [ConditionalTarget(nameof(BooleanField))]
+            public NestedSubSubForm ConditionalForm { get; set; }
+        }
 
-    public class NestedSubSubForm
-    {
-        public string NestedStringField { get; set; }
+        public class NestedSubSubForm
+        {
+            public string NestedStringField { get; set; }
+        }
     }
 }

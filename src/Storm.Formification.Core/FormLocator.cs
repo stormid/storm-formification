@@ -9,15 +9,20 @@ namespace Storm.Formification.Core
     {
         private readonly IDictionary<string, (Forms.IInfo Info, Type Type)> formTypes;
 
-        public FormLocator(IEnumerable<Assembly> assemblies)
+        public FormLocator(params Type[] types)
         {
-            formTypes = assemblies?.SelectMany(a => a.GetExportedTypes().Where(t => t.GetCustomAttribute<Forms.InfoAttribute>() != null))
+            formTypes = types?.Where(t => t.GetCustomAttribute<Forms.InfoAttribute>() != null)
                             .Select(t => {
-                                var info = Info(t);
+                                var info = t.GetCustomAttribute<Forms.InfoAttribute>() as Forms.IInfo;
                                 var kv = new KeyValuePair<string, (Forms.IInfo Info, Type Type)>(info.Id, (info, t));
                                 return kv;
-                                })
+                            })
                             .ToDictionary(k => k.Key, v => v.Value);
+        }
+
+
+        public FormLocator(IEnumerable<Assembly> assemblies) : this(assemblies?.SelectMany(a => a.GetExportedTypes()).ToArray())
+        {
         }
 
         public IEnumerable<Type> All()
@@ -37,7 +42,14 @@ namespace Storm.Formification.Core
 
         public FormLayoutDescriptor GetFormLayoutDescriptor(Type type)
         {
-            return new FormLayoutDescriptor(type);
+            try
+            {
+                return FormLayoutDescriptor.Build(type);
+            }
+            catch(ArgumentNullException)
+            {
+                return null;
+            }
         }
 
         public FormLayoutDescriptor GetFormLayoutDescriptor(string id)
@@ -45,7 +57,7 @@ namespace Storm.Formification.Core
             var type = Get(id);
             if(type != null)
             {
-                return new FormLayoutDescriptor(type);
+                return FormLayoutDescriptor.Build(type);
             }
 
             return null;
@@ -53,7 +65,7 @@ namespace Storm.Formification.Core
 
         public FormLayoutDescriptor GetFormLayoutDescriptor(Forms.IInfo formInfo)
         {
-            return GetFormLayoutDescriptor(formInfo);
+            return GetFormLayoutDescriptor(formInfo.Id);
         }
 
         public Forms.IInfo Info(Type type)

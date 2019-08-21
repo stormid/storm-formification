@@ -11,7 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{4F077127
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Storm.Formification.Core", "src\Storm.Formification.Core\Storm.Formification.Core.csproj", "{72A7901C-3170-4286-9248-0EA528A389F0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Storm.Formification.Razor", "src\Storm.Formification.Razor\Storm.Formification.Razor.csproj", "{C3E6904D-CE65-4F22-8F44-7087BE063613}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Storm.Formification.Bootstrap4", "src\Storm.Formification.Razor\Storm.Formification.Bootstrap4.csproj", "{C3E6904D-CE65-4F22-8F44-7087BE063613}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Storm.Formification.TagHelpers", "src\Storm.Formification.TagHelpers\Storm.Formification.TagHelpers.csproj", "{2785BAA5-33B4-4FF3-964A-27F6ABB5CCC2}"
 EndProject

@@ -10,14 +10,20 @@ namespace Storm.Formification.Core
     {
         public FormLayoutDescriptor(string id, string name, IReadOnlyList<FormSection> sections)
         {
-            Sections = sections.Count > 1 ? sections : Enumerable.Empty<FormSection>();
+            if (string.IsNullOrWhiteSpace(id))
+            {
+                throw new ArgumentNullException(nameof(id));
+            }
+
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            Sections = sections.All(s => !string.IsNullOrWhiteSpace(s.Name)) ? sections.ToList() : Enumerable.Empty<FormSection>();
             Properties = sections.SelectMany(p => p.Properties);
             Id = id;
             Name = name;
-        }
-
-        public FormLayoutDescriptor(Type formType) : this(RetrieveFormInfo(formType).Id, RetrieveFormInfo(formType).Name, RetrieveFormSections(formType))
-        {
         }
 
         public string Id { get; }
@@ -30,21 +36,34 @@ namespace Storm.Formification.Core
 
         public bool HasSections() => Sections.Any();
 
+        public static FormLayoutDescriptor Build(Type type)
+        {
+            var info = RetrieveFormInfo(type);
+            if (info != null)
+            {
+                return new FormLayoutDescriptor(info.Id, info.Name, RetrieveFormSections(type));
+            }
+
+            return null;
+        }
+
         private static Forms.IInfo RetrieveFormInfo(Type formType)
         {
-            return formType.GetCustomAttribute<Forms.InfoAttribute>() as Forms.IInfo;
+            var formInfo = formType.GetCustomAttribute<Forms.InfoAttribute>() as Forms.IInfo ?? (formType.IsNestedPublic && formType.DeclaringType.GetCustomAttribute<Forms.InfoAttribute>() is Forms.IInfo fi ? fi : null);
+            return formInfo;
         }
 
         private static IReadOnlyList<FormSection> RetrieveFormSections(Type formType)
         {
             var properties = formType.GetProperties().Where(p => Attribute.IsDefined(p, typeof(DataTypeAttribute))).ToList();
-            var sections = properties.GroupBy(p => p.GetCustomAttribute<Forms.SectionAttribute>()?.Name);
-            return sections.Select(section => new FormSection(section.Key, section.Select(p =>
+            var sections = properties.GroupBy(p => p.GetCustomAttribute<Forms.SectionAttribute>()?.Name).ToList();
+
+            var formSections = sections?.Select(section => new FormSection(section.Key, section.Select(p =>
             {
                 var formProperty = new FormProperty(p);
-                var triggerAttribute = p.GetCustomAttributes().OfType<Forms.IAmConditionaTriggerAware>()?.FirstOrDefault();
+                var triggerAttribute = p.GetCustomAttributes().OfType<Forms.IAmConditionalTriggerAware>()?.FirstOrDefault();
 
-                if(triggerAttribute != null && !string.IsNullOrWhiteSpace(triggerAttribute.ConditionalTrigger))
+                if (triggerAttribute != null && !string.IsNullOrWhiteSpace(triggerAttribute.ConditionalTrigger))
                 {
                     formProperty.SetConditionalTrigger(triggerAttribute.ConditionalTrigger);
                 }
@@ -57,8 +76,9 @@ namespace Storm.Formification.Core
                 }
 
                 return formProperty;
-            })))
-            .ToList();
+            }))).ToList() ?? Enumerable.Empty<FormSection>().ToList();
+
+            return formSections;
         }
     }
 }

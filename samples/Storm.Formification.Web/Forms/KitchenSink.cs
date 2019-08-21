@@ -101,7 +101,7 @@ namespace Storm.Formification.Web.Forms
                     var result = JsonConvert.DeserializeObject<Root>(data);
                     if (result.status == 200)
                     {
-                        return result.result.Select(c => new ChoiceItem(c.postcode, c.postcode));
+                        return result.result.GroupBy(g => g.nhs_ha).SelectMany(c => c.Select(s => new ChoiceItem(s.postcode, s.postcode, c.Key)));
                     }
                 }
                 catch

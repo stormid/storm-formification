@@ -11,7 +11,7 @@ namespace Storm.Formification.Core
 {
     public static class Forms
     {
-        public interface IAmConditionaTriggerAware
+        public interface IAmConditionalTriggerAware
         {
             string ConditionalTrigger { get; set; }
         }
@@ -39,7 +39,7 @@ namespace Storm.Formification.Core
         }
 
         [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
-        public class ChoiceAttribute : DataTypeAttribute, IAmConditionaTriggerAware
+        public class ChoiceAttribute : DataTypeAttribute, IAmConditionalTriggerAware
         {
             public ChoiceAttribute() : base("Forms__Choice")
             {
@@ -116,7 +116,7 @@ namespace Storm.Formification.Core
         }
 
         [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
-        public class BooleanAttribute : DataTypeAttribute, IAmConditionaTriggerAware
+        public class BooleanAttribute : DataTypeAttribute, IAmConditionalTriggerAware
         {
             public BooleanAttribute() : base("Forms__Boolean")
             {
