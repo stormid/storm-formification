@@ -11,8 +11,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{4F077127
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Storm.Formification.Core", "src\Storm.Formification.Core\Storm.Formification.Core.csproj", "{72A7901C-3170-4286-9248-0EA528A389F0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Storm.Formification.Bootstrap4", "src\Storm.Formification.Razor\Storm.Formification.Bootstrap4.csproj", "{C3E6904D-CE65-4F22-8F44-7087BE063613}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Storm.Formification.TagHelpers", "src\Storm.Formification.TagHelpers\Storm.Formification.TagHelpers.csproj", "{2785BAA5-33B4-4FF3-964A-27F6ABB5CCC2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Storm.Formification.WebWithDb", "samples\Storm.Formification.WebWithDb\Storm.Formification.WebWithDb.csproj", "{38B9D15C-A11D-4A8B-940B-0871582A132D}"
@@ -20,6 +18,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Storm.Formification.Web", "samples\Storm.Formification.Web\Storm.Formification.Web.csproj", "{FBEACEC4-7E11-442C-BAB0-BA461F7CE421}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Storm.Formification.Tests", "tests\Storm.Formification.Tests\Storm.Formification.Tests.csproj", "{EB0348C7-427B-4178-AA8E-CEB6C9002127}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Storm.Formification.Bootstrap4", "src\Storm.Formification.Bootstrap4\Storm.Formification.Bootstrap4.csproj", "{9101F819-BB48-4E58-869B-0A95CD9FC819}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,10 +31,6 @@ Global
 		{72A7901C-3170-4286-9248-0EA528A389F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{72A7901C-3170-4286-9248-0EA528A389F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{72A7901C-3170-4286-9248-0EA528A389F0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C3E6904D-CE65-4F22-8F44-7087BE063613}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C3E6904D-CE65-4F22-8F44-7087BE063613}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C3E6904D-CE65-4F22-8F44-7087BE063613}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C3E6904D-CE65-4F22-8F44-7087BE063613}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2785BAA5-33B4-4FF3-964A-27F6ABB5CCC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2785BAA5-33B4-4FF3-964A-27F6ABB5CCC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2785BAA5-33B4-4FF3-964A-27F6ABB5CCC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -51,17 +47,21 @@ Global
 		{EB0348C7-427B-4178-AA8E-CEB6C9002127}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB0348C7-427B-4178-AA8E-CEB6C9002127}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EB0348C7-427B-4178-AA8E-CEB6C9002127}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9101F819-BB48-4E58-869B-0A95CD9FC819}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9101F819-BB48-4E58-869B-0A95CD9FC819}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9101F819-BB48-4E58-869B-0A95CD9FC819}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9101F819-BB48-4E58-869B-0A95CD9FC819}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{72A7901C-3170-4286-9248-0EA528A389F0} = {4F9535CB-ADFC-46A5-8C67-B3DDFD0F1922}
-		{C3E6904D-CE65-4F22-8F44-7087BE063613} = {4F9535CB-ADFC-46A5-8C67-B3DDFD0F1922}
 		{2785BAA5-33B4-4FF3-964A-27F6ABB5CCC2} = {4F9535CB-ADFC-46A5-8C67-B3DDFD0F1922}
 		{38B9D15C-A11D-4A8B-940B-0871582A132D} = {7FD27481-25E8-4D98-A0C8-C61EFF840CE7}
 		{FBEACEC4-7E11-442C-BAB0-BA461F7CE421} = {7FD27481-25E8-4D98-A0C8-C61EFF840CE7}
 		{EB0348C7-427B-4178-AA8E-CEB6C9002127} = {4F077127-65D5-427C-8C72-8A2262A674B6}
+		{9101F819-BB48-4E58-869B-0A95CD9FC819} = {4F9535CB-ADFC-46A5-8C67-B3DDFD0F1922}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EF557E15-BCCF-451E-BE0B-7F36B0B92EAC}

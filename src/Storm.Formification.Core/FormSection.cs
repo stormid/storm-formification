@@ -7,7 +7,8 @@ namespace Storm.Formification.Core
         public FormSection(string name, IEnumerable<FormProperty> properties)
         {
             Name = name;
-            Properties = properties;
+            var props = new List<FormProperty>(properties);
+            Properties = props;
         }
 
         public string Name { get; set; }

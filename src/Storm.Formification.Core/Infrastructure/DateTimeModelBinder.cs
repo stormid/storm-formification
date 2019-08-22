@@ -27,11 +27,21 @@ namespace Storm.Formification.Core.Infrastructure
             return PerformBindingActionAsync(bindingContext);
         }
 
+        private string GetDatePartModelName(ModelBindingContext bindingContext, string datePart)
+        {
+            if(bindingContext.ModelName == bindingContext.ModelType.Name)
+            {
+                return $"{bindingContext.FieldName}.{datePart}".Trim('.');
+            }
+
+            return $"{bindingContext.ModelName}.{datePart}".Trim('.');
+        }
+
         private Task PerformBindingActionAsync(ModelBindingContext bindingContext)
         {
-            var dayPartModelName = $"{bindingContext.FieldName}.{nameof(DateTime.Day)}".Trim('.');
-            var monthPartModelName = $"{bindingContext.FieldName}.{nameof(DateTime.Month)}".Trim('.');
-            var yearPartModelName = $"{bindingContext.FieldName}.{nameof(DateTime.Year)}".Trim('.');
+            var dayPartModelName = GetDatePartModelName(bindingContext, nameof(DateTime.Day));
+            var monthPartModelName = GetDatePartModelName(bindingContext, nameof(DateTime.Month));
+            var yearPartModelName = GetDatePartModelName(bindingContext, nameof(DateTime.Year));
 
             var dayValueResult = bindingContext.ValueProvider.GetValue(dayPartModelName);
             var monthValueResult = bindingContext.ValueProvider.GetValue(monthPartModelName);

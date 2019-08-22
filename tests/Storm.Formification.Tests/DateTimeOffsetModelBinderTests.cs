@@ -1,6 +1,7 @@
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
 using Microsoft.Extensions.Primitives;
 using Storm.Formification.Core;
@@ -235,6 +236,11 @@ namespace Storm.Formification.Tests
             {
                 context.ModelState.ErrorCount.Should().Be(1);
             }
+        }
+
+        public class CustomModel
+        {
+            public DateTime? DateField { get; set; }
         }
     }
 }
