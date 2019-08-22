@@ -1,4 +1,4 @@
-# STF forms builder discovery
+# Storm.Formification
 
 This repo contains prototype code that is designed as the basis of a code-first form building library that can be used to rapidly create data entry forms with rich validation and presentation logic
 
@@ -13,8 +13,6 @@ Install-Package SomeName.Package
 Then add the configuration step to your MVC configuration like so:
 
 ```c#
-    services.AddMediatR(typeof(Startup)); // this prototype requires Mediator!
-
     services.AddMvc()
         // ------
         .ConfigureForms(typeof(Startup).Assembly) // specify each assembly that contains form models

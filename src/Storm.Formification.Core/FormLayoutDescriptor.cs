@@ -58,27 +58,32 @@ namespace Storm.Formification.Core
             var properties = formType.GetProperties().Where(p => Attribute.IsDefined(p, typeof(DataTypeAttribute))).ToList();
             var sections = properties.GroupBy(p => p.GetCustomAttribute<Forms.SectionAttribute>()?.Name).ToList();
 
-            var formSections = sections?.Select(section => new FormSection(section.Key, section.Select(p =>
+            var formSections = sections?.Select(section =>
             {
-                var formProperty = new FormProperty(p);
-                var triggerAttribute = p.GetCustomAttributes().OfType<Forms.IAmConditionalTriggerAware>()?.FirstOrDefault();
-
-                if (triggerAttribute != null && !string.IsNullOrWhiteSpace(triggerAttribute.ConditionalTrigger))
+                var formSection = new FormSection(section.Key, section.Select(p =>
                 {
-                    formProperty.SetConditionalTrigger(triggerAttribute.ConditionalTrigger);
-                }
+                    var formProperty = new FormProperty(p);
+                    var triggerAttribute = p.GetCustomAttributes().OfType<Forms.IAmConditionalTriggerAware>()?.FirstOrDefault();
 
-                var triggerTargetAttribute = p.GetCustomAttribute<Forms.ConditionalTargetAttribute>();
+                    if (triggerAttribute != null && !string.IsNullOrWhiteSpace(triggerAttribute.ConditionalTrigger))
+                    {
+                        formProperty.SetConditionalTrigger(triggerAttribute.ConditionalTrigger);
+                    }
 
-                if (triggerTargetAttribute != null)
-                {
-                    formProperty.SetConditionalTriggerTarget(triggerTargetAttribute.TriggerKey);
-                }
+                    var triggerTargetAttribute = p.GetCustomAttribute<Forms.ConditionalTargetAttribute>();
 
-                return formProperty;
-            }))).ToList() ?? Enumerable.Empty<FormSection>().ToList();
+                    if (triggerTargetAttribute != null)
+                    {
+                        formProperty.SetConditionalTriggerTarget(triggerTargetAttribute.TriggerKey);
+                    }
 
-            return formSections;
+                    return formProperty;
+                }));
+
+                return formSection;
+            });
+
+            return formSections.ToList() ?? Enumerable.Empty<FormSection>().ToList();
         }
     }
 }

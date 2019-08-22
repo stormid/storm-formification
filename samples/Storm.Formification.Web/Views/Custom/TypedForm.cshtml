@@ -3,12 +3,9 @@
 
 @model FormModel
 
-@inject IFormLocator FormLocator
-
 <div class="col-md-8 col-lg-6 form-horziontal">
     <form method="post" enctype="multipart/form-data" asp-antiforgery="true" asp-route-id="@Model.Id">
         @Html.RenderForm(m => m.BankAccount)
-        <hr />
         @Html.RenderForm(m => m.Pet)
         <hr />
         <div class="form-row mt-3">

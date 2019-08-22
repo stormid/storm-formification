@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <IsPackable>true</IsPackable>
+    <Description>Formification is a library that leverages features of AspNetCore Mvc to allow the creation of simple data input forms</Description>
   </PropertyGroup>
 
   <ItemGroup>

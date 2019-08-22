@@ -17,7 +17,7 @@ namespace Storm.Formification.Core
 
             var dt = viewData.Model as DateTime?;
 
-            if (dt.HasValue && dt.Value != DateTime.MinValue && viewData.ModelMetadata.IsReferenceOrNullableType)
+            if (dt.HasValue && dt.Value != DateTime.MinValue && viewData.ModelMetadata.UnderlyingOrModelType == typeof(DateTime))
             {
                 return dt.Value.ToString("dd");
             }
@@ -37,7 +37,7 @@ namespace Storm.Formification.Core
 
             var dt = viewData.Model as DateTime?;
 
-            if (dt.HasValue && dt.Value != DateTime.MinValue && viewData.ModelMetadata.IsReferenceOrNullableType)
+            if (dt.HasValue && dt.Value != DateTime.MinValue && viewData.ModelMetadata.UnderlyingOrModelType == typeof(DateTime))
             {
                 return dt.Value.ToString("MM");
             }
@@ -57,7 +57,7 @@ namespace Storm.Formification.Core
 
             var dt = viewData.Model as DateTime?;
 
-            if (dt.HasValue && dt.Value != DateTime.MinValue && viewData.ModelMetadata.IsReferenceOrNullableType)
+            if (dt.HasValue && dt.Value != DateTime.MinValue && viewData.ModelMetadata.UnderlyingOrModelType == typeof(DateTime))
             {
                 return dt.Value.ToString("yyyy");
             }

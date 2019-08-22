@@ -18,7 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Storm.Formification.Core\Storm.Formification.Core.csproj" />
-    <ProjectReference Include="..\..\src\Storm.Formification.Razor\Storm.Formification.Bootstrap4.csproj" />
+    <ProjectReference Include="..\..\src\Storm.Formification.Bootstrap4\Storm.Formification.Bootstrap4.csproj" />
     <ProjectReference Include="..\..\src\Storm.Formification.TagHelpers\Storm.Formification.TagHelpers.csproj" />
   </ItemGroup>
 

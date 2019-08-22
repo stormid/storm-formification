@@ -236,7 +236,6 @@ namespace Storm.Formification.Core
                 if (ModelState.IsValid)
                 {
                     var savedId = await formActions.Save(id.GetValueOrDefault(Guid.NewGuid()), form, cancellationToken);
-                    return RedirectToAction(nameof(Index), new { id = savedId });
                 }
 
                 return View(form);

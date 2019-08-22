@@ -30,7 +30,7 @@
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
-            output.Attributes.SetAttribute("id", string.IsNullOrWhiteSpace(Id) ? $"{ViewContext.ViewData.ModelMetadata.Name}_{FormDateField.ToString()}" : Id);
+            output.Attributes.SetAttribute("id", string.IsNullOrWhiteSpace(Id) ? $"{ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(string.Empty).Replace(".", "_")}_{FormDateField.ToString()}" : Id);
             output.Attributes.SetAttribute("name", string.IsNullOrWhiteSpace(Name) ? ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(FormDateField.ToString()) : Name);
             output.Attributes.SetAttribute("value", GetAttemptedFieldValue(ViewContext.ViewData));
         }

@@ -1,6 +1,11 @@
 ﻿using Storm.Formification.Web.Forms;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System.Threading.Tasks;
+using System.Linq;
+using Storm.Formification.Core;
+using System.ComponentModel.DataAnnotations;
 
 namespace Storm.Formification.Web.Controllers
 {
@@ -14,6 +19,13 @@ namespace Storm.Formification.Web.Controllers
     [Route("[controller]/[action]")]
     public class CustomController : Controller
     {
+        private readonly IFormLocator formLocator;
+
+        public CustomController(IFormLocator formLocator)
+        {
+            this.formLocator = formLocator;
+        }
+
         [HttpGet]
         public IActionResult Index()
         {
@@ -29,6 +41,7 @@ namespace Storm.Formification.Web.Controllers
                 BankAccount = new BankAccountForm(),
                 Pet = new PetForm()
             };
+
             return View(model);
         }
 
