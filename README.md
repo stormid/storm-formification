@@ -7,7 +7,7 @@ This repo contains prototype code that is designed as the basis of a code-first 
 The form builder library is supplied as a separate package that contains code and custom razor views and templates.  To use the package include it via NuGet (when it is available).
 
 ```
-Install-Package SomeName.Package
+Install-Package Storm.Formification.Core
 ```
 
 Then add the configuration step to your MVC configuration like so:
@@ -20,6 +20,14 @@ Then add the configuration step to your MVC configuration like so:
         // ------
         .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 ```
+
+# Form component templates
+
+```
+Install-Package Storm.Formification.Bootstrap4
+```
+
+This will install the Bootstrap4 component templates
 
 # A Form
 
