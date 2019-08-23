@@ -7,28 +7,57 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace Storm.Formification.Core
 {
     public static class HtmlHelperExtensions
     {
+        public static IHtmlContent DisplayFormForModel<TModel>(this IHtmlHelper<TModel> htmlHelper)
+        {
+            htmlHelper.ViewData.SetDisplayMode(true);
+            return htmlHelper.Display(null, "Forms__Form", null, null);
+        }
+
+        public static IHtmlContent DisplayForm<TModel, TResult>(this IHtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TResult>> expression)
+        {
+            htmlHelper.ViewData.SetDisplayMode(true);
+            return htmlHelper.DisplayFor(expression, "Forms__Form", null, null);
+        }
+
+        public static IHtmlContent DisplayFormForModel(this IHtmlHelper htmlHelper)
+        {
+            htmlHelper.ViewData.SetDisplayMode(true);
+            return htmlHelper.Display(null, "Forms__Form", null, null);
+        }
+        
+        public static IHtmlContent DisplayForm(this IHtmlHelper htmlHelper, string expression)
+        {
+            htmlHelper.ViewData.SetDisplayMode(true);
+            return htmlHelper.Display(expression, "Forms__Form", null, null);
+        }
+
         public static IHtmlContent RenderFormForModel<TModel>(this IHtmlHelper<TModel> htmlHelper)
         {
+            htmlHelper.ViewData.SetDisplayMode(false);
             return htmlHelper.Editor(null, "Forms__Form", null, null);
         }
 
         public static IHtmlContent RenderForm<TModel, TResult>(this IHtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TResult>> expression)
         {
+            htmlHelper.ViewData.SetDisplayMode(false);
             return htmlHelper.EditorFor(expression, "Forms__Form", null, null);
         }
 
         public static IHtmlContent RenderFormForModel(this IHtmlHelper htmlHelper)
         {
+            htmlHelper.ViewData.SetDisplayMode(false);
             return htmlHelper.Editor(null, "Forms__Form", null, null);
         }
 
         public static IHtmlContent RenderForm(this IHtmlHelper htmlHelper, string expression)
         {
+            htmlHelper.ViewData.SetDisplayMode(false);
             return htmlHelper.Editor(expression, "Forms__Form", null, null);
         }
 
@@ -51,6 +80,11 @@ namespace Storm.Formification.Core
 
         public static IHtmlContent FormProperty(this IHtmlHelper htmlHelper, FormProperty formProperty)
         {
+            if(htmlHelper.ViewData.IsDisplayMode())
+            { 
+                return htmlHelper.Display(formProperty.Property.Name, formProperty.DataType);
+            }
+
             return htmlHelper.Editor(formProperty.Property.Name, formProperty.DataType);
         }
 
@@ -58,7 +92,7 @@ namespace Storm.Formification.Core
         {
             var dataSourceSelector = htmlHelper.ViewContext.HttpContext.RequestServices.GetRequiredService<IChoiceDataSourceSelector>();
 
-            var type = htmlHelper.ViewData.ModelMetadata.ModelType;
+            var type = htmlHelper.ViewData.ModelMetadata.UnderlyingOrModelType;
 
             var allowEmptyOption = Nullable.GetUnderlyingType(type) != null || htmlHelper.ViewData.ModelMetadata.IsReferenceOrNullableType;
 
@@ -83,6 +117,13 @@ namespace Storm.Formification.Core
             }
 
             return items;
+        }
+
+        public static async Task<IEnumerable<ChoiceItem>> GetChoicesForModel(this IHtmlHelper htmlHelper)
+        {
+            var dataSourceSelector = htmlHelper.ViewContext.HttpContext.RequestServices.GetRequiredService<IChoiceDataSourceSelector>();
+
+            return await dataSourceSelector.GetChoiceItemForModelAsync(htmlHelper.ViewData);
         }
     }
 }

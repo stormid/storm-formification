@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using static Storm.Formification.Core.Forms;
+using System.ComponentModel.DataAnnotations;
 
 namespace Storm.Formification.Web.Forms
 {
@@ -30,6 +31,7 @@ namespace Storm.Formification.Web.Forms
 
         [Date]
         [HintLabel("Must be a valid date")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime DateField { get; set; }
 
         [Upload]
@@ -43,7 +45,7 @@ namespace Storm.Formification.Web.Forms
         public DayOfWeek RequiredSingleSelect { get; set; }
 
         [Choice]
-        public IEnumerable<DayOfWeek> MultiSelect { get; set; }
+        public IEnumerable<DayOfWeek> MultiSelect { get; set; } = new List<DayOfWeek>() { DayOfWeek.Monday, DayOfWeek.Wednesday };
 
         [Choice(ConditionalTrigger = nameof(ColourSelect))]
         [HintLabel("Be colourful!")]
@@ -51,7 +53,7 @@ namespace Storm.Formification.Web.Forms
 
         [Choice]
         [ChoiceDataSource(typeof(ListOfPostcodesDataSource))]
-        public string Postcode { get; set; }
+        public string Postcode { get; set; } = "EH6 7BG";
 
         [Choice]
         [ChoiceDataSource(typeof(ListOfOptionsDataSource))]
