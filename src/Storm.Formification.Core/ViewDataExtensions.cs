@@ -9,6 +9,7 @@ namespace Storm.Formification.Core
     public static class ViewDataExtensions
     {
         public const string CurrentSectionKey = "__forms__currentsection";
+        public const string DisplayModeKey = "__forms__displayMode";
         public const string CurrentPropertiesKey = "__forms__currentproperties";
 
         public static Type GetFormType(this ViewDataDictionary viewData)
@@ -28,15 +29,6 @@ namespace Storm.Formification.Core
         {
             var formType = GetFormType(viewData);
 
-            //if(formType.GetCustomAttribute<Forms.NestedAttribute>() != null)
-            //{
-            //    var parentFormType = formType.DeclaringType;
-
-            //    var parent
-
-            //    return new FormLayoutDescriptor("", "", Enumerable.Empty<FormSection>().ToList());
-            //}
-
             return FormLayoutDescriptor.Build(formType);
         }
 
@@ -54,6 +46,21 @@ namespace Storm.Formification.Core
             }
 
             return null;
+        }
+
+        public static void SetDisplayMode(this ViewDataDictionary viewData, bool enabled = true)
+        {
+            viewData[DisplayModeKey] = enabled;
+        }
+
+        public static bool IsDisplayMode(this ViewDataDictionary viewData)
+        {
+            if (viewData.TryGetValue(DisplayModeKey, out var o) && o is bool value)
+            {
+                return value;
+            }
+
+            return false;
         }
 
         public static void SetCurrentFormProperties(this ViewDataDictionary viewData, IEnumerable<FormProperty> properties)

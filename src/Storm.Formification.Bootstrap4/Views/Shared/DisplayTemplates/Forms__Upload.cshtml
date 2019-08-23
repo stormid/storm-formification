@@ -1,0 +1,16 @@
+﻿@using Microsoft.AspNetCore.Http
+@model object
+
+@{
+    var modelType = ViewData.ModelMetadata.ModelType;
+
+    if (typeof(IFormFile).IsAssignableFrom(modelType))
+    {
+        var file = Model as IFormFile;
+
+        <div class="form-group">
+            <label asp-for="@Model"></label>
+            <input class="form-control" readonly value="@file?.FileName" />
+        </div>
+    }
+}

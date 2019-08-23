@@ -1,0 +1,10 @@
+﻿@model object
+
+@{ 
+    var choices = await Html.GetChoicesForModel();
+}
+
+<div class="form-group">
+    <label asp-for="@Model"></label>
+    <input class="form-control" readonly data-choice-value="@string.Join(",", choices.Select(c => c.Value).ToList())" value="@string.Join(",", choices.Select(c => c.Text).ToList())" />
+</div>
