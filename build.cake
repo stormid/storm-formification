@@ -15,4 +15,34 @@ Setup<Configuration>(Configuration.Create);
 #load ".cake/Artifacts-DotNetCore-Ef.cake"
 // -------------
 
+Task("Tools:Git-Export")
+    .Does<Configuration>(config => {
+
+    var settings = new ProcessSettings() 
+    { 
+        RedirectStandardOutput = true
+    };
+
+    var exportArtifactRootPath = $"{config.Artifacts.Root}/export";
+    EnsureDirectoryExists(exportArtifactRootPath);
+    var exportArchiveFile = MakeAbsolute(File($"{exportArtifactRootPath}/export.zip"));
+    
+    if(FileExists(exportArchiveFile))
+    {
+        DeleteFile(exportArchiveFile);
+    }
+    
+    settings.Arguments = string.Format($"archive -o {exportArchiveFile} HEAD");
+    
+    using(var process = StartAndReturnProcess("git", settings))
+    {
+        process.WaitForExit();
+        if(process.GetExitCode() == 0)
+        {
+            Information("Exported source to {0}", exportArchiveFile);
+            config.Artifacts.Add(ArtifactTypeOption.Other, exportArchiveFile.GetFilename().ToString(), exportArchiveFile);            
+        }
+    }
+});
+
 RunTarget(Argument("target", Argument("Target", "Default")));
