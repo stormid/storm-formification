@@ -72,8 +72,11 @@ namespace Storm.Formification.Core.Infrastructure
             }
             else
             {
+                bindingContext.ModelState.MarkFieldValid(dayPartModelName);
                 bindingContext.ModelState.SetModelValue(dayPartModelName, dayValueResult);
+                bindingContext.ModelState.MarkFieldValid(monthPartModelName);
                 bindingContext.ModelState.SetModelValue(monthPartModelName, monthValueResult);
+                bindingContext.ModelState.MarkFieldValid(yearPartModelName);
                 bindingContext.ModelState.SetModelValue(yearPartModelName, yearValueResult);
                 bindingContext.Result = ModelBindingResult.Success(dateValue);
             }
