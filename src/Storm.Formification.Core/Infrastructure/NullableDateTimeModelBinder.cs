@@ -72,6 +72,9 @@ namespace Storm.Formification.Core.Infrastructure
             }
             else
             {
+                bindingContext.ModelState.SetModelValue(dayPartModelName, dayValueResult);
+                bindingContext.ModelState.SetModelValue(monthPartModelName, monthValueResult);
+                bindingContext.ModelState.SetModelValue(yearPartModelName, yearValueResult);
                 bindingContext.Result = ModelBindingResult.Success(dateValue);
             }
 
