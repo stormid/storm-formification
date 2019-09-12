@@ -52,12 +52,13 @@ namespace Storm.Formification.Core.Infrastructure
                 return Task.CompletedTask;
             }
 
+            bindingContext.ModelState.SetModelValue(dayPartModelName, dayValueResult);
+            bindingContext.ModelState.SetModelValue(monthPartModelName, monthValueResult);
+            bindingContext.ModelState.SetModelValue(yearPartModelName, yearValueResult);
+
             if (string.IsNullOrWhiteSpace(dayValueResult.FirstValue) && string.IsNullOrWhiteSpace(monthValueResult.FirstValue) && string.IsNullOrWhiteSpace(yearValueResult.FirstValue))
             {
                 bindingContext.ModelState.TryAddModelError(bindingContext.ModelName, $"'{bindingContext.ModelMetadata.DisplayName}' must be a valid date");
-                bindingContext.ModelState.SetModelValue(dayPartModelName, dayValueResult);
-                bindingContext.ModelState.SetModelValue(monthPartModelName, monthValueResult);
-                bindingContext.ModelState.SetModelValue(yearPartModelName, yearValueResult);
                 bindingContext.Result = ModelBindingResult.Failed();
                 return Task.CompletedTask;
             }
@@ -67,13 +68,13 @@ namespace Storm.Formification.Core.Infrastructure
             if (!dateValue.HasValue)
             {
                 bindingContext.ModelState.TryAddModelError(bindingContext.ModelName, $"'{bindingContext.ModelMetadata.DisplayName}' must be a valid date");
-                bindingContext.ModelState.SetModelValue(dayPartModelName, dayValueResult);
-                bindingContext.ModelState.SetModelValue(monthPartModelName, monthValueResult);
-                bindingContext.ModelState.SetModelValue(yearPartModelName, yearValueResult);
                 bindingContext.Result = ModelBindingResult.Failed();
             }
             else
             {
+                bindingContext.ModelState.MarkFieldValid(dayPartModelName);
+                bindingContext.ModelState.MarkFieldValid(monthPartModelName);
+                bindingContext.ModelState.MarkFieldValid(yearPartModelName);
                 bindingContext.Result = ModelBindingResult.Success(dateValue.Value);
             }
 

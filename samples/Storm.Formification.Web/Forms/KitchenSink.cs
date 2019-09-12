@@ -34,6 +34,18 @@ namespace Storm.Formification.Web.Forms
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime DateField { get; set; }
 
+        [Date]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
+        public DateTime AdditionalDateField { get; set; }
+
+        [Date]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
+        public DateTime? OptionalDateField { get; set; }
+
+        [Date]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
+        public DateTime? OptionalAdditionalDateField { get; set; }
+
         [Upload]
         [HintLabel("Maximum file size of 5MB")]
         public IFormFile UploadField { get; set; }
