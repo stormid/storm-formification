@@ -13,6 +13,7 @@ namespace Storm.Formification.Core
             {
                 o.AddAdditionalMetadataProvider();
                 o.ModelBinderProviders.Insert(0, new DateTimeModelBinderProvider());
+                o.ModelBinderProviders.Insert(0, new DateMonthYearModelBinderProvider());
                 o.ModelMetadataDetailsProviders.Add(new HumanizerMetadataProvider());
             });
             return mvcBuilder;
