@@ -68,16 +68,17 @@ namespace Storm.Formification.Tests
         }
 
         [Theory]
-        [InlineData(1990, 1, true, "1990-01")]
-        [InlineData(1990, 12, true, "1990-12")]
-        [InlineData(1990, 13, false, null)]
+        [InlineData("90", "01", true, "01/90")]
+        [InlineData("90", "1", true, "01/90")]
+        [InlineData("90", "12", true, "12/90")]
+        [InlineData("90", "13", false, null)]
         [InlineData(null, null, true, null)]
-        public async Task ShouldBindDateTimeAsModel(int? year, int? month, bool isValid, string expectedDateString)
+        public async Task ShouldBindDateTimeAsModel(string? year, string? month, bool isValid, string expectedDateString)
         {
             var formCollection = new FormCollection(new Dictionary<string, StringValues>()
             {
-                { "Month", month.ToString() },
-                { "Year", year.ToString() },
+                { "Month", month?.ToString() },
+                { "Year", year?.ToString() },
             });
 
             var binder = new DateMonthYearModelBinder();
@@ -95,14 +96,6 @@ namespace Storm.Formification.Tests
                 var dateValueString = (string)context.Result.Model;
 
                 dateValueString.Should().Be(expectedDateString);
-
-                if (!string.IsNullOrWhiteSpace(dateValueString))
-                {
-                    DateTime.TryParseExact(dateValueString, "yyyy-MM", CultureInfo.InvariantCulture.DateTimeFormat, DateTimeStyles.None, out var dateValue);
-                    dateValue.Date.Day.Should().Be(1);
-                    dateValue.Date.Month.Should().Be(month);
-                    dateValue.Date.Year.Should().Be(year);
-                }
             }
             else
             {

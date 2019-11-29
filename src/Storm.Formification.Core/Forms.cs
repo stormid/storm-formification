@@ -46,7 +46,7 @@ namespace Storm.Formification.Core
             {
             }
 
-            public string ConditionalTrigger { get; set; }
+            public string? ConditionalTrigger { get; set; }
         }
 
         [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
@@ -61,7 +61,7 @@ namespace Storm.Formification.Core
         [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
         public class UploadAttribute : DataTypeAttribute
         {
-            public string AllowedExtensions { get; set; }
+            public string? AllowedExtensions { get; set; }
 
             public int? MaximumSizeInBytes { get; set; }
 
