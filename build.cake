@@ -15,12 +15,28 @@ Setup<Configuration>(Configuration.Create);
 #load ".cake/Artifacts-DotNetCore-Ef.cake"
 // -------------
 
+Task("Restore:DotNetCore:Tools")
+    .IsDependeeOf("Restore")
+    .Does<Configuration>(config => {
+
+    var settings = new ProcessSettings() 
+    { 
+        RedirectStandardOutput = false
+    };
+
+    settings.Arguments = string.Format($"tool restore");
+    using(var process = StartAndReturnProcess("dotnet", settings))
+    {
+        process.WaitForExit();
+    }
+});
+
 Task("Tools:Git-Export")
     .Does<Configuration>(config => {
 
     var settings = new ProcessSettings() 
     { 
-        RedirectStandardOutput = true
+        RedirectStandardOutput = false
     };
 
     var exportArtifactRootPath = $"{config.Artifacts.Root}/export";

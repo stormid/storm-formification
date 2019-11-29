@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using System.Threading;
@@ -124,6 +125,15 @@ namespace Storm.Formification.Core
             }
 
             public string ConditionalTrigger { get; set; }
+        }
+
+        [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
+        public class DateMonthYearAttribute : DataTypeAttribute
+        {
+            public DateMonthYearAttribute() : base("Forms__DateMonthYear")
+            {
+
+            }
         }
 
         public interface IInfo

@@ -1,0 +1,21 @@
+﻿@model string
+
+<div class="form-group">
+    <div class="form-row">
+        <label>
+            @Html.DisplayNameForModel()
+            <hint-label class="text text-muted" asp-for="@Model"></hint-label>
+        </label>
+    </div>
+    <div class="form-row">
+        <div class="col-md-3">
+            <label for="@Html.Id("Month")">Month</label>
+            <input class="form-control" type="number" min="1 max="12" form-date-field="Month" />
+        </div>
+        <div class="col-md-3">
+            <label for="@Html.Id("Year")">Year</label>
+            <input class="form-control" type="number" min="1" max="9999" form-date-field="Year" />
+        </div>
+    </div>
+    <div class="form-row" asp-validation-summary="ModelOnly"></div>
+</div>
