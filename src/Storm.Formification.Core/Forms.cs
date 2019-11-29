@@ -136,6 +136,16 @@ namespace Storm.Formification.Core
             }
         }
 
+
+        [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
+        public class EmailAttribute : DataTypeAttribute
+        {
+            public EmailAttribute() : base("Forms__Email")
+            {
+
+            }
+        }
+
         public interface IInfo
         {
             string Slug { get; }
