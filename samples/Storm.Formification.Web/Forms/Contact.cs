@@ -35,7 +35,7 @@ namespace Storm.Formification.Web.Forms
         [Choice]
         public PersonGenderType Gender { get; set; }
         
-        [Text]
+        [Email]
         public string Email { get; set; }
 
         [Date]
