@@ -21,7 +21,11 @@ namespace Storm.Formification.Core.Infrastructure
 
             if (context.Metadata is DefaultModelMetadata defaultMetadata && (defaultMetadata?.Attributes?.PropertyAttributes?.OfType<Forms.DateMonthYearAttribute>().Any() ?? false))
             {
-                return new DateMonthYearModelBinder();
+                var attribute = defaultMetadata?.Attributes?.PropertyAttributes.OfType<Forms.DateMonthYearAttribute>().First();
+                if (attribute != null)
+                {
+                    return new DateMonthYearModelBinder(attribute.DateStringFormat);
+                }
             }
 
             return null;

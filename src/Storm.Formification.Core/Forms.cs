@@ -130,10 +130,23 @@ namespace Storm.Formification.Core
         [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
         public class DateMonthYearAttribute : DataTypeAttribute
         {
+            public enum DayValueOption
+            {
+                FirstDay,
+                LastDay
+            }
+
             public DateMonthYearAttribute() : base("Forms__DateMonthYear")
             {
-
             }
+            public DateMonthYearAttribute(string dateStringFormat) : this()
+            {
+                DateStringFormat = dateStringFormat;
+            }
+
+            public string DateStringFormat { get; set; } = "MM/yy";
+
+            public DayValueOption DayValue { get; set; } = DayValueOption.FirstDay;
         }
 
 
@@ -206,7 +219,7 @@ namespace Storm.Formification.Core
 
         public class DefaultFormActions<TForm> : IFormActions<TForm> where TForm : class, new()
         {
-            public Task<TForm> Retrieve(Guid id, CancellationToken cancellationToken = default(CancellationToken))
+            public Task<TForm?> Retrieve(Guid id, CancellationToken cancellationToken = default(CancellationToken))
             {
                 return Task.FromResult(new TForm());
             }

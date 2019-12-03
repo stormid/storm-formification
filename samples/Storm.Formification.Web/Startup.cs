@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Storm.Formification.Web.Infrastructure;
+using Storm.Formification.Web.Forms;
+using static Storm.Formification.Core.Forms;
 
 namespace Storm.Formification.Web
 {
@@ -46,6 +48,8 @@ namespace Storm.Formification.Web
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddHttpClient();
+
+            services.AddScoped<IFormActions<CreditCard>, CreditCardFormActions>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
