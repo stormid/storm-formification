@@ -1,10 +1,12 @@
 ﻿using Humanizer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -153,9 +155,45 @@ namespace Storm.Formification.Core
         [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
         public class EmailAttribute : DataTypeAttribute
         {
+            private const string EmailPattern = @"^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$";
+
+            private static Regex PatternMatcher = new Regex(EmailPattern, RegexOptions.Singleline | RegexOptions.CultureInvariant);
+
             public EmailAttribute() : base("Forms__Email")
             {
+            }
 
+            public override string FormatErrorMessage(string name)
+            {
+                return $"'{name}' is not a valid email address";
+            }
+
+            private bool IsPatternMatch(string value)
+            {
+                return PatternMatcher.IsMatch(value);
+            }
+
+            public override bool IsValid(object value)
+            {
+                if (value == null)
+                {
+                    return true;
+                }
+
+                if (!(value is string valueAsString))
+                {
+                    return false;
+                }
+
+                // only return true if there is only 1 '@' character
+                // and it is neither the first nor the last character
+                int index = valueAsString.IndexOf('@');
+
+                return
+                    index > 0 &&
+                    index != valueAsString.Length - 1 &&
+                    index == valueAsString.LastIndexOf('@') &&
+                    IsPatternMatch(valueAsString);
             }
         }
 
