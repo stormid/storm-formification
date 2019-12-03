@@ -50,6 +50,8 @@ namespace Storm.Formification.Web
             services.AddHttpClient();
 
             services.AddScoped<IFormActions<CreditCard>, CreditCardFormActions>();
+            services.AddScoped<IFormActions<KitchenSink>, KitchenSinkFormActions>();
+            services.AddScoped<IFormActions<DateForm>, DateFormActions>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

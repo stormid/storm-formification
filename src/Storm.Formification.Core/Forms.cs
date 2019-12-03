@@ -78,7 +78,6 @@ namespace Storm.Formification.Core
         {
             public DateAttribute() : base("Forms__Date")
             {
-
             }
         }
 
@@ -128,7 +127,7 @@ namespace Storm.Formification.Core
 
             public string ConditionalTrigger { get; set; }
         }
-
+        
         [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
         public class DateMonthYearAttribute : DataTypeAttribute
         {
@@ -141,14 +140,14 @@ namespace Storm.Formification.Core
             public DateMonthYearAttribute() : base("Forms__DateMonthYear")
             {
             }
-            public DateMonthYearAttribute(string dateStringFormat) : this()
-            {
-                DateStringFormat = dateStringFormat;
-            }
-
-            public string DateStringFormat { get; set; } = "MM/yy";
 
             public DayValueOption DayValue { get; set; } = DayValueOption.FirstDay;
+
+            public string DateFormatString { get; set; } = "MM/yy";
+
+            public string MonthFormatString { get; set; } = "MM";
+
+            public string YearFormatString { get; set; } = "yy";
         }
 
 

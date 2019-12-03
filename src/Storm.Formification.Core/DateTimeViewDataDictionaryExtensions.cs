@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 
@@ -11,13 +10,6 @@ namespace Storm.Formification.Core
     {
         public static string? GetAttemptedValue(this ViewDataDictionary viewData, string datePart)
         {
-            var datePartRegistry = new Dictionary<string, string>()
-            {
-                { "Day", "dd" },
-                { "Month", "MM" },
-                { "Year", "yy" },
-            };
-
             if (!viewData.ModelState.IsValid)
             {
                 var name = viewData.TemplateInfo.GetFullHtmlFieldName(datePart);
@@ -26,18 +18,33 @@ namespace Storm.Formification.Core
                 return modelValue?.AttemptedValue;
             }
 
-            var dateMonthYearAttribute = (viewData.ModelMetadata as DefaultModelMetadata)?.Attributes.PropertyAttributes.OfType<Forms.DateMonthYearAttribute>().FirstOrDefault();
 
-            if (dateMonthYearAttribute != null && datePartRegistry.TryGetValue(datePart, out var dateFormatString))
+            var dt = viewData.Model as DateTime?;
+            if (dt.HasValue && dt.Value != DateTime.MinValue && viewData.ModelMetadata.UnderlyingOrModelType == typeof(DateTime))
             {
-                var dt = viewData.Model as DateTime?;
-                if (dt.HasValue && dt.Value != DateTime.MinValue && viewData.ModelMetadata.UnderlyingOrModelType == typeof(DateTime))
+                switch (datePart)
                 {
-                    return dt.Value.ToString(dateFormatString);
+                    case "Day":
+                        return dt.Value.ToString("dd");
+                    case "Month":
+                        return dt.Value.ToString("MM");
+                    case "Year":
+                        return dt.Value.ToString("yyyy");
                 }
-                else if (viewData.Model is string stringValue && DateTime.TryParseExact(stringValue, dateMonthYearAttribute.DateStringFormat, CultureInfo.InvariantCulture.DateTimeFormat, DateTimeStyles.None, out var dateValue))
+            }
+            else if (viewData.Model is string stringValue)
+            {
+                var dateMonthYearAttribute = (viewData.ModelMetadata as DefaultModelMetadata)?.Attributes.PropertyAttributes.OfType<Forms.DateMonthYearAttribute>().FirstOrDefault();
+
+                if (dateMonthYearAttribute != null && DateTime.TryParseExact(stringValue, dateMonthYearAttribute.DateFormatString, CultureInfo.InvariantCulture.DateTimeFormat, DateTimeStyles.None, out var dateValue))
                 {
-                    return dateValue.ToString(dateFormatString);
+                    switch(datePart)
+                    {
+                        case "Month":
+                            return dateValue.ToString(dateMonthYearAttribute.MonthFormatString);
+                        case "Year":
+                            return dateValue.ToString(dateMonthYearAttribute.YearFormatString);
+                    }
                 }
             }
 
