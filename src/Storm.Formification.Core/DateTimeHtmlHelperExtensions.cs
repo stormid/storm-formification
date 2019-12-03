@@ -5,19 +5,19 @@ namespace Storm.Formification.Core
 {
     public static class DateTimeHtmlHelperExtensions
     {
-        public static string GetAttemptedDayValue(this IHtmlHelper<DateTime?> htmlHelper, string name = "Day")
+        public static string? GetAttemptedDayValue(this IHtmlHelper<DateTime?> htmlHelper)
         {
-            return htmlHelper.ViewData.GetAttemptedDayValue(name);
+            return htmlHelper.ViewData.GetAttemptedDayValue();
         }
 
-        public static string GetAttemptedMonthValue(this IHtmlHelper<DateTime?> htmlHelper, string name = "Month")
+        public static string? GetAttemptedMonthValue(this IHtmlHelper<DateTime?> htmlHelper)
         {
-            return htmlHelper.ViewData.GetAttemptedMonthValue(name);
+            return htmlHelper.ViewData.GetAttemptedMonthValue();
         }
 
-        public static string GetAttemptedYearValue(this IHtmlHelper<DateTime?> htmlHelper, string name = "Year")
+        public static string? GetAttemptedYearValue(this IHtmlHelper<DateTime?> htmlHelper)
         {
-            return htmlHelper.ViewData.GetAttemptedYearValue(name);
+            return htmlHelper.ViewData.GetAttemptedYearValue();
         }
     }
 }

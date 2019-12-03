@@ -12,12 +12,12 @@
         {
             Day,
             Month,
-            Year
+            Year,
         }
         
-        public string Id { get; set; }
+        public string? Id { get; set; }
 
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         [HtmlAttributeName("form-date-field")]
         public DateFields FormDateField { get; set; }
@@ -26,16 +26,19 @@
 
         [ViewContext]
         [HtmlAttributeNotBound]
-        public ViewContext ViewContext { get; set; }
+        public ViewContext? ViewContext { get; set; }
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
-            output.Attributes.SetAttribute("id", string.IsNullOrWhiteSpace(Id) ? $"{ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(string.Empty).Replace(".", "_")}_{FormDateField.ToString()}" : Id);
-            output.Attributes.SetAttribute("name", string.IsNullOrWhiteSpace(Name) ? ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(FormDateField.ToString()) : Name);
-            output.Attributes.SetAttribute("value", GetAttemptedFieldValue(ViewContext.ViewData));
+            if (ViewContext != null)
+            {
+                output.Attributes.SetAttribute("id", string.IsNullOrWhiteSpace(Id) ? $"{ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(string.Empty).Replace(".", "_")}_{FormDateField.ToString()}" : Id);
+                output.Attributes.SetAttribute("name", string.IsNullOrWhiteSpace(Name) ? ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(FormDateField.ToString()) : Name);
+                output.Attributes.SetAttribute("value", GetAttemptedFieldValue(ViewContext.ViewData));
+            }
         }
 
-        private string GetAttemptedFieldValue(ViewDataDictionary viewData)
+        private string? GetAttemptedFieldValue(ViewDataDictionary viewData)
         {
             switch (FormDateField)
             {

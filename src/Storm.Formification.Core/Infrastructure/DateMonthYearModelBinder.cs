@@ -7,16 +7,44 @@ namespace Storm.Formification.Core.Infrastructure
 {
     public class DateMonthYearModelBinder : IModelBinder
     {
-        private (string year, string month)? ParseDate(string year, string month)
+        private string dateStringFormat;
+        private readonly Forms.DateMonthYearAttribute.DayValueOption dayValue;
+
+        public DateMonthYearModelBinder(string dateStringFormat) : this(dateStringFormat, Forms.DateMonthYearAttribute.DayValueOption.FirstDay)
         {
-            if(int.TryParse(year, out var dateYear) && int.TryParse(month, out var dateMonth) && DateTime.TryParseExact($"{dateMonth:00}/{dateYear:00}", "MM/yy", CultureInfo.InvariantCulture.DateTimeFormat, DateTimeStyles.None, out var dateValue))
+        }
+
+        public DateMonthYearModelBinder() : this("MM/yy", Forms.DateMonthYearAttribute.DayValueOption.FirstDay)
+        {
+        }
+
+        public DateMonthYearModelBinder(string dateStringFormat, Forms.DateMonthYearAttribute.DayValueOption dayValue)
+        {
+            if(string.IsNullOrWhiteSpace(dateStringFormat))
             {
-                return (dateYear.ToString("00"), dateMonth.ToString("00"));
+                throw new ArgumentNullException(nameof(dateStringFormat), "A date format string must be supplied");
+            }
+
+            this.dateStringFormat = dateStringFormat;
+            this.dayValue = dayValue;
+        }
+
+        private DateTime? ParseDate(string year, string month)
+        {
+            if (int.TryParse(year, out var dateYear) && int.TryParse(month, out var dateMonth) && DateTime.TryParseExact($"{dateMonth:00}/{dateYear:00}", "MM/yy", CultureInfo.InvariantCulture.DateTimeFormat, DateTimeStyles.None, out var dateValue))
+            {
+                switch(dayValue)
+                {
+                    case Forms.DateMonthYearAttribute.DayValueOption.LastDay:
+                        return new DateTime(dateValue.Year, dateValue.Month, DateTime.DaysInMonth(dateValue.Year, dateValue.Month));
+                    default:
+                        return dateValue;
+                }
             }
 
             return null;
         }
-
+        
         public Task BindModelAsync(ModelBindingContext bindingContext)
         {
             if (bindingContext == null)
@@ -61,9 +89,9 @@ namespace Storm.Formification.Core.Infrastructure
                 return Task.CompletedTask;
             }
 
-            var dateFields = ParseDate(yearValueResult.FirstValue, monthValueResult.FirstValue);
+            var dateValue = ParseDate(yearValueResult.FirstValue, monthValueResult.FirstValue);
 
-            if (!dateFields.HasValue)
+            if (!dateValue.HasValue)
             {
                 bindingContext.ModelState.TryAddModelError(bindingContext.ModelName, $"'{bindingContext.ModelMetadata.DisplayName}' must be a valid month and year");
                 bindingContext.Result = ModelBindingResult.Failed();
@@ -72,7 +100,7 @@ namespace Storm.Formification.Core.Infrastructure
             {
                 bindingContext.ModelState.MarkFieldValid(monthPartModelName);
                 bindingContext.ModelState.MarkFieldValid(yearPartModelName);
-                bindingContext.Result = ModelBindingResult.Success($"{dateFields.Value.month}/{dateFields.Value.year}");
+                bindingContext.Result = ModelBindingResult.Success(dateValue.Value.ToString(dateStringFormat, CultureInfo.InvariantCulture.DateTimeFormat));
             }
 
             return Task.CompletedTask;
