@@ -1,5 +1,6 @@
 ﻿namespace Storm.Formification.TagHelpers
 {
+    using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
     using Microsoft.AspNetCore.Razor.TagHelpers;
@@ -14,14 +15,14 @@
             Month,
             Year,
         }
-        
+
         public string? Id { get; set; }
 
         public string? Name { get; set; }
 
         [HtmlAttributeName("form-date-field")]
         public DateFields FormDateField { get; set; }
-
+        
         public override int Order => 9999;
 
         [ViewContext]
@@ -40,17 +41,7 @@
 
         private string? GetAttemptedFieldValue(ViewDataDictionary viewData)
         {
-            switch (FormDateField)
-            {
-                case DateFields.Day:
-                    return viewData.GetAttemptedDayValue();
-                case DateFields.Month:
-                    return viewData.GetAttemptedMonthValue();
-                case DateFields.Year:
-                    return viewData.GetAttemptedYearValue();
-                default:
-                    return string.Empty;
-            }            
+            return viewData.GetAttemptedValue(FormDateField.ToString());
         }
     }
 }

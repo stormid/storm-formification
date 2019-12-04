@@ -10,9 +10,39 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using static Storm.Formification.Core.Forms;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.Extensions.Caching.Memory;
+using System.Threading;
 
 namespace Storm.Formification.Web.Forms
 {
+    public class KitchenSinkFormActions : IFormActions<KitchenSink>
+    {
+        private readonly IMemoryCache memoryCache;
+
+        public KitchenSinkFormActions(IMemoryCache memoryCache)
+        {
+            this.memoryCache = memoryCache;
+        }
+
+        public Task<KitchenSink> Retrieve(Guid id, CancellationToken cancellationToken = default)
+        {
+            if (memoryCache.TryGetValue(id, out var obj) && obj is KitchenSink formInstance)
+            {
+                System.Diagnostics.Debug.WriteLine(id.ToString());
+                return Task.FromResult(formInstance);
+            }
+
+            return Task.FromResult(new KitchenSink());
+        }
+
+        public Task<Guid> Save(Guid id, KitchenSink form, CancellationToken cancellationToken = default)
+        {
+            memoryCache.Set(id, form);
+
+            return Task.FromResult(id);
+        }
+    }
+
     [Info("Kitchen sink", "85f6c9a9-f223-40ad-8b03-4c655ba761f7")]
     public class KitchenSink
     {
@@ -45,6 +75,9 @@ namespace Storm.Formification.Web.Forms
         [Date]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime? OptionalAdditionalDateField { get; set; }
+
+        [DateMonthYear]
+        public string OptionalMonthYearField { get; set; }
 
         [Upload]
         [HintLabel("Maximum file size of 5MB")]

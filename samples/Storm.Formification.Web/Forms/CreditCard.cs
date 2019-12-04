@@ -49,10 +49,10 @@ namespace Storm.Formification.Web.Forms
 
         [DateMonthYear]
         [Required]
-        public string ValidFrom { get; set; }
+        public string? ValidFrom { get; set; }
 
         [DateMonthYear]
         [Required]
-        public string ValidTo { get; set; }
+        public string? ValidTo { get; set; }
     }
 }
