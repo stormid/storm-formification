@@ -25,7 +25,7 @@ namespace Storm.Formification.Core
         }
 
 
-        public static FormLayoutDescriptor GetFormStructure(this ViewDataDictionary viewData)
+        public static FormLayoutDescriptor? GetFormStructure(this ViewDataDictionary viewData)
         {
             var formType = GetFormType(viewData);
 
@@ -37,7 +37,7 @@ namespace Storm.Formification.Core
             viewData[CurrentSectionKey] = formSection;
         }
 
-        public static FormSection GetCurrentFormSection(this ViewDataDictionary viewData)
+        public static FormSection? GetCurrentFormSection(this ViewDataDictionary viewData)
         {
             if (viewData.TryGetValue(CurrentSectionKey, out var o) && o is FormSection formSection)
             {
@@ -78,7 +78,7 @@ namespace Storm.Formification.Core
             return Enumerable.Empty<FormProperty>();
         }
 
-        public static FormProperty GetCurrentFormProperty(this ViewDataDictionary viewData)
+        public static FormProperty? GetCurrentFormProperty(this ViewDataDictionary viewData)
         {
             if (viewData.TryGetValue(CurrentPropertiesKey, out var o) && o is IEnumerable<FormProperty> properties)
             {

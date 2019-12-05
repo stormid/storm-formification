@@ -50,9 +50,9 @@ namespace Storm.Formification.Tests
 
             var info = formLocator.Info(TestEmptyFormId);
 
-            info.Id.Should().Be(TestEmptyFormId);
-            info.Name.Should().Be("Test empty form");
-            info.Slug.Should().Be("test-empty-form");
+            info?.Id.Should().Be(TestEmptyFormId);
+            info?.Name.Should().Be("Test empty form");
+            info?.Slug.Should().Be("test-empty-form");
         }
 
         [Fact]
@@ -73,10 +73,10 @@ namespace Storm.Formification.Tests
             var descriptor = formLocator.GetFormLayoutDescriptor(TestEmptyFormId);
 
             descriptor.Should().NotBeNull();
-            descriptor.Id.Should().Be(TestEmptyFormId);
-            descriptor.Name.Should().Be("Test empty form");
-            descriptor.Properties.Should().BeEmpty();
-            descriptor.Sections.Should().BeEmpty();
+            descriptor?.Id.Should().Be(TestEmptyFormId);
+            descriptor?.Name.Should().Be("Test empty form");
+            descriptor?.Properties.Should().BeEmpty();
+            descriptor?.Sections.Should().BeEmpty();
         }
 
         [Fact]
@@ -87,10 +87,10 @@ namespace Storm.Formification.Tests
             var descriptor = formLocator.GetFormLayoutDescriptor(typeof(TestEmptyForm));
 
             descriptor.Should().NotBeNull();
-            descriptor.Id.Should().Be(TestEmptyFormId);
-            descriptor.Name.Should().Be("Test empty form");
-            descriptor.Properties.Should().BeEmpty();
-            descriptor.Sections.Should().BeEmpty();
+            descriptor?.Id.Should().Be(TestEmptyFormId);
+            descriptor?.Name.Should().Be("Test empty form");
+            descriptor?.Properties.Should().BeEmpty();
+            descriptor?.Sections.Should().BeEmpty();
         }
 
         [Fact]
@@ -100,13 +100,18 @@ namespace Storm.Formification.Tests
 
             var formInfo = formLocator.Info(typeof(TestEmptyForm));
 
+            if(formInfo == null)
+            {
+                throw new NullReferenceException("formInfo should not be null");
+            }
+
             var descriptor = formLocator.GetFormLayoutDescriptor(formInfo);
 
             descriptor.Should().NotBeNull();
-            descriptor.Id.Should().Be(TestEmptyFormId);
-            descriptor.Name.Should().Be("Test empty form");
-            descriptor.Properties.Should().BeEmpty();
-            descriptor.Sections.Should().BeEmpty();
+            descriptor?.Id.Should().Be(TestEmptyFormId);
+            descriptor?.Name.Should().Be("Test empty form");
+            descriptor?.Properties.Should().BeEmpty();
+            descriptor?.Sections.Should().BeEmpty();
         }
 
         [Fact]

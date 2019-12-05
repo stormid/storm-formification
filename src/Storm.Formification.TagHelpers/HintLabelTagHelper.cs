@@ -6,8 +6,7 @@
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
     using Microsoft.AspNetCore.Mvc.ViewFeatures.Internal;
     using Microsoft.AspNetCore.Razor.TagHelpers;
-    using System;
-
+    
     public class HintLabelTagHelper : TagHelper
     {
         private readonly IModelMetadataProvider modelMetadataProvider;
@@ -18,22 +17,29 @@
         }
 
         [HtmlAttributeName("asp-for")]
-        public ModelExpression For { get; set; }
+        public ModelExpression? For { get; set; }
 
         [ViewContext]
         [HtmlAttributeNotBound]
-        public ViewContext ViewContext { get; set; }
+        public ViewContext? ViewContext { get; set; }
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
-            var modelExplorer = ExpressionMetadataProvider.FromStringExpression(For.Name, ViewContext.ViewData, modelMetadataProvider);
-            if (modelExplorer.Metadata.AdditionalValues.ContainsKey(HintLabelAttribute.HintLabelKey))
+            if(For != null && ViewContext != null)
             {
-                var hintLabelValue = modelExplorer.Metadata.AdditionalValues[HintLabelAttribute.HintLabelKey].ToString();
-                if (!string.IsNullOrWhiteSpace(hintLabelValue))
+                var modelExplorer = ExpressionMetadataProvider.FromStringExpression(For.Name, ViewContext.ViewData, modelMetadataProvider);
+                if (modelExplorer.Metadata.AdditionalValues.ContainsKey(HintLabelAttribute.HintLabelKey))
                 {
-                    output.TagName = "span";
-                    output.Content.SetContent(hintLabelValue);
+                    var hintLabelValue = modelExplorer.Metadata.AdditionalValues[HintLabelAttribute.HintLabelKey].ToString();
+                    if (!string.IsNullOrWhiteSpace(hintLabelValue))
+                    {
+                        output.TagName = "span";
+                        output.Content.SetContent(hintLabelValue);
+                    }
+                }
+                else
+                {
+                    output.SuppressOutput();
                 }
             }
             else

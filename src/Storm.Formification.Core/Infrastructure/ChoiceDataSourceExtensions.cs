@@ -20,17 +20,19 @@ namespace Storm.Formification.Core.Infrastructure
                     if (dataSource != null)
                     {
                         var items = await dataSource.GetAsync();
+                        
                         return items
                             .GroupBy(c => c.Group)
                             .SelectMany(c =>
                             {
-                                SelectListGroup group = string.IsNullOrWhiteSpace(c.Key) ? null : new SelectListGroup { Name = c.Key };
+                                SelectListGroup? group = string.IsNullOrWhiteSpace(c.Key) ? null : new SelectListGroup { Name = c.Key };
                                 return c.Select(s => new SelectListItem(s.Text, s.Value)
                                 {
                                     Group = group,
                                     Disabled = s.Disabled
                                 });
-                            }) ?? Enumerable.Empty<SelectListItem>();
+                            })
+                            ?? Enumerable.Empty<SelectListItem>();
                     }
                 }
             }
@@ -41,7 +43,7 @@ namespace Storm.Formification.Core.Infrastructure
         public static async Task<string> GetSelectedItemTextForModelAsync(this IChoiceDataSourceSelector dataSourceSelector, ViewDataDictionary viewData)
         {
             var modelValue = viewData?.Model?.ToString() ?? string.Empty;
-            if (!string.IsNullOrWhiteSpace(modelValue) && viewData.ModelMetadata.AdditionalValues.ContainsKey(ChoiceDataSourceAttribute.Key))
+            if (!string.IsNullOrWhiteSpace(modelValue) && (viewData?.ModelMetadata.AdditionalValues.ContainsKey(ChoiceDataSourceAttribute.Key) ?? false))
             {
                 if (viewData.ModelMetadata.AdditionalValues.TryGetValue(ChoiceDataSourceAttribute.Key, out var type) && type is Type datasourceType)
                 {
@@ -57,9 +59,9 @@ namespace Storm.Formification.Core.Infrastructure
             return modelValue;
         }
 
+        [Obsolete("This shouldnt be here!", true)]
         public static async Task<IEnumerable<ChoiceItem>> GetChoiceItemForModelAsync2(this IChoiceDataSourceSelector dataSourceSelector, ViewDataDictionary viewData)
         {
-            // var modelValue = viewData?.Model?.ToString() ?? string.Empty;
             var selectedItemsList = new List<ChoiceItem>();
 
             if (viewData.ModelMetadata.AdditionalValues.ContainsKey(ChoiceDataSourceAttribute.Key))
@@ -117,13 +119,13 @@ namespace Storm.Formification.Core.Infrastructure
                         var selectedItemValue = selectedItem?.ToString() ?? string.Empty;
                         var selectedItemText = selectedItem?.ToString() ?? string.Empty;
 
-                        if (selectedItem.GetType().IsEnum)
+                        if (selectedItem?.GetType().IsEnum ?? false)
                         {
-                            selectedItemText = Enum.Format(selectedItem.GetType(), selectedItem ?? default(int), "G");
-                            selectedItemValue = Enum.Format(selectedItem.GetType(), selectedItem ?? default(int), "D");
+                            selectedItemText = Enum.Format(selectedItem?.GetType(), selectedItem ?? default(int), "G");
+                            selectedItemValue = Enum.Format(selectedItem?.GetType(), selectedItem ?? default(int), "D");
                         }
 
-                        var item = dataSource != null ? await dataSource.GetAsync(selectedItemValue) : new ChoiceItem(selectedItemValue, selectedItemText);
+                        var item = dataSource != null ? await dataSource.GetAsync(selectedItemValue) : new ChoiceItem(selectedItemValue, selectedItemText, null, true);
                         selectedItemsList.Add(item);
                     }
                 }
@@ -134,7 +136,7 @@ namespace Storm.Formification.Core.Infrastructure
                         var selectedItemValue = selectedItem?.ToString() ?? string.Empty;
                         var selectedItemText = selectedItem?.ToString() ?? string.Empty;
 
-                        if (selectedItem.GetType().IsEnum)
+                        if (selectedItem?.GetType().IsEnum ?? false)
                         {
                             selectedItemText = Enum.Format(selectedItem.GetType(), selectedItem, "G");
                             selectedItemValue = Enum.Format(selectedItem.GetType(), selectedItem, "D");

@@ -28,7 +28,7 @@ namespace Storm.Formification.Web.Forms
     public class PetForm
     {
         [Text]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         [Date]
         public DateTime DateOfBirth { get; set; }

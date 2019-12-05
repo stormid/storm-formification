@@ -10,13 +10,13 @@ namespace Storm.Formification.WebWithDb.Data
     {
         public Guid Id { get; set; }
 
-        public IdentityUser User { get; set; }
+        public IdentityUser? User { get; set; }
 
         public string DocumentId { get; set; } = Guid.NewGuid().ToString();
 
         public string SecretId { get; set; } = Guid.NewGuid().ToString();
 
-        public Type FormType { get; set; }
+        public Type? FormType { get; set; }
 
         public FormContainer(IdentityUser user)
         {
@@ -33,8 +33,8 @@ namespace Storm.Formification.WebWithDb.Data
     {
         public void Configure(EntityTypeBuilder<FormContainer> builder)
         {
-            var typeConverter = new ValueConverter<Type, string>(
-                v => v.AssemblyQualifiedName,
+            var typeConverter = new ValueConverter<Type?, string>(
+                v => v == null ? string.Empty : v.AssemblyQualifiedName,
                 v => Type.GetType(v, false, true));
 
             builder.HasKey(p => p.Id);

@@ -7,9 +7,9 @@ namespace Storm.Formification.Core
 {
     public class FormLocator : IFormLocator
     {
-        private readonly IDictionary<string, (Forms.IInfo Info, Type Type)> formTypes;
+        private readonly IDictionary<string, (Forms.IInfo Info, Type Type)>? formTypes;
 
-        public FormLocator(params Type[] types)
+        public FormLocator(params Type[]? types)
         {
             formTypes = types?.Where(t => t.GetCustomAttribute<Forms.InfoAttribute>() != null)
                             .Select(t => {
@@ -27,7 +27,7 @@ namespace Storm.Formification.Core
 
         public IEnumerable<Type> All()
         {
-            return formTypes.Values.Select(s => s.Type);
+            return formTypes?.Values.Select(s => s.Type) ?? Enumerable.Empty<Type>();
         }
 
         public Type Get(string id)
@@ -40,7 +40,7 @@ namespace Storm.Formification.Core
             return formTypes.Where(v => predicate(v.Value.Info)).Select(s => s.Value.Type).ToList();
         }
 
-        public FormLayoutDescriptor GetFormLayoutDescriptor(Type type)
+        public FormLayoutDescriptor? GetFormLayoutDescriptor(Type type)
         {
             try
             {
@@ -52,7 +52,7 @@ namespace Storm.Formification.Core
             }
         }
 
-        public FormLayoutDescriptor GetFormLayoutDescriptor(string id)
+        public FormLayoutDescriptor? GetFormLayoutDescriptor(string id)
         {
             var type = Get(id);
             if(type != null)
@@ -63,17 +63,17 @@ namespace Storm.Formification.Core
             return null;
         }
 
-        public FormLayoutDescriptor GetFormLayoutDescriptor(Forms.IInfo formInfo)
+        public FormLayoutDescriptor? GetFormLayoutDescriptor(Forms.IInfo formInfo)
         {
             return GetFormLayoutDescriptor(formInfo.Id);
         }
 
-        public Forms.IInfo Info(Type type)
+        public Forms.IInfo? Info(Type type)
         {
-            return formTypes.Values.FirstOrDefault(f => f.Type == type).Info;
+            return formTypes?.Values.FirstOrDefault(f => f.Type == type).Info;
         }
 
-        public Forms.IInfo Info(string id)
+        public Forms.IInfo? Info(string id)
         {
             var type = Get(id);
             return Info(type);

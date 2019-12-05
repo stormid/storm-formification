@@ -16,14 +16,14 @@ namespace Storm.Formification.Web.Forms
             this.memoryCache = memoryCache;
         }
 
-        public Task<CreditCard> Retrieve(Guid id, CancellationToken cancellationToken = default)
+        public Task<CreditCard?> Retrieve(Guid id, CancellationToken cancellationToken = default)
         {
             if(memoryCache.TryGetValue(id, out var obj) && obj is CreditCard creditCardFormInstance)
             {
-                return Task.FromResult(creditCardFormInstance);
+                return Task.FromResult<CreditCard?>(creditCardFormInstance);
             }
 
-            return Task.FromResult(new CreditCard());
+            return Task.FromResult<CreditCard?>(new CreditCard());
         }
 
         public Task<Guid> Save(Guid id, CreditCard form, CancellationToken cancellationToken = default)
@@ -42,10 +42,10 @@ namespace Storm.Formification.Web.Forms
         [Text]
         [Required]
         [MaxLength(25)]
-        public string Issuer { get; set; }
+        public string? Issuer { get; set; }
 
         [Text]
-        public string NameOnCard { get; set; }
+        public string? NameOnCard { get; set; }
 
         [DateMonthYear]
         [Required]

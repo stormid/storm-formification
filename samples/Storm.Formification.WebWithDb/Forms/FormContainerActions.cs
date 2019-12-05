@@ -24,7 +24,7 @@ namespace Storm.Formification.WebWithDb.Forms
             this.userManager = userManager;
         }
 
-        public async Task<TForm> Retrieve(Guid id, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<TForm?> Retrieve(Guid id, CancellationToken cancellationToken = default(CancellationToken))
         {
             var currentClaimsPrincipal = httpContextAccessor.HttpContext.User;
             var currentUser = await userManager.GetUserAsync(currentClaimsPrincipal);
@@ -74,8 +74,8 @@ namespace Storm.Formification.WebWithDb.Forms
 
             var result = await dataStore.Save(formContainer.DocumentId, formContainer.SecretId, form);
 
-            formContainer.DocumentId = result.DocumentId;
-            formContainer.SecretId = result.SecretId;
+            formContainer.DocumentId = result?.DocumentId ?? throw new NullReferenceException("document id is null");
+            formContainer.SecretId = result?.SecretId ?? throw new NullReferenceException("secret id is null");
             await dbContext.SaveChangesAsync();
 
             return formContainer.Id;

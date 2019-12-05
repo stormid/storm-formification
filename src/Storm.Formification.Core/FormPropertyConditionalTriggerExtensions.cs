@@ -7,7 +7,7 @@
             formProperty.Metadata.Add("_trigger-target", triggerKey);
         }
 
-        public static string GetConditionalTriggerTarget(this FormProperty formProperty)
+        public static string? GetConditionalTriggerTarget(this FormProperty formProperty)
         {
             if (formProperty.Metadata.TryGetValue("_trigger-target", out var triggerTargetValue) && triggerTargetValue is string triggerTarget)
             {
@@ -19,10 +19,13 @@
 
         public static void SetConditionalTrigger(this FormProperty formProperty, string triggerKey)
         {
-            formProperty.Metadata.Add("_trigger", triggerKey);
+            if (!string.IsNullOrWhiteSpace(triggerKey))
+            {
+                formProperty.Metadata.Add("_trigger", triggerKey);
+            }
         }
 
-        public static string GetConditionalTrigger(this FormProperty formProperty)
+        public static string? GetConditionalTrigger(this FormProperty formProperty)
         {
             if(formProperty.Metadata.TryGetValue("_trigger", out var triggerKeyValue) && triggerKeyValue is string triggerKey)
             {

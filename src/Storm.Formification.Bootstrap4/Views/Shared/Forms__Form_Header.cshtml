@@ -1,9 +1,7 @@
 ﻿@model object
 
-@inject IFormLocator FormLocator
-
 @{ 
-    var formInfo = FormLocator.GetFormLayoutDescriptor(ViewData.GetFormType());
+    var formInfo = Html.GetCurrentFormInfo();
 }
 
 <div class="form-row">
