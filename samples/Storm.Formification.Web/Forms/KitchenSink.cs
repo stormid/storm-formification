@@ -15,43 +15,15 @@ using System.Threading;
 
 namespace Storm.Formification.Web.Forms
 {
-    public class KitchenSinkFormActions : IFormActions<KitchenSink>
-    {
-        private readonly IMemoryCache memoryCache;
-
-        public KitchenSinkFormActions(IMemoryCache memoryCache)
-        {
-            this.memoryCache = memoryCache;
-        }
-
-        public Task<KitchenSink> Retrieve(Guid id, CancellationToken cancellationToken = default)
-        {
-            if (memoryCache.TryGetValue(id, out var obj) && obj is KitchenSink formInstance)
-            {
-                System.Diagnostics.Debug.WriteLine(id.ToString());
-                return Task.FromResult(formInstance);
-            }
-
-            return Task.FromResult(new KitchenSink());
-        }
-
-        public Task<Guid> Save(Guid id, KitchenSink form, CancellationToken cancellationToken = default)
-        {
-            memoryCache.Set(id, form);
-
-            return Task.FromResult(id);
-        }
-    }
-
     [Info("Kitchen sink", "85f6c9a9-f223-40ad-8b03-4c655ba761f7")]
     public class KitchenSink
     {
         [Text]
-        public string StringField { get; set; }
+        public string? StringField { get; set; }
 
         [MultilineText]
         [HintLabel("Optional")]
-        public string MultilineStringField { get; set; }
+        public string? MultilineStringField { get; set; }
 
         [Numeric]
         public int NumericField { get; set; }
@@ -77,11 +49,11 @@ namespace Storm.Formification.Web.Forms
         public DateTime? OptionalAdditionalDateField { get; set; }
 
         [DateMonthYear]
-        public string OptionalMonthYearField { get; set; }
+        public string? OptionalMonthYearField { get; set; }
 
         [Upload]
         [HintLabel("Maximum file size of 5MB")]
-        public IFormFile UploadField { get; set; }
+        public IFormFile? UploadField { get; set; }
 
         [Choice]
         public DayOfWeek? OptionalSingleSelect { get; set; }
@@ -109,11 +81,11 @@ namespace Storm.Formification.Web.Forms
 
         [Text]
         [ConditionalTarget(nameof(TriggeredConditional))]
-        public string ConditionallyTriggered { get; set; }
+        public string? ConditionallyTriggered { get; set; }
 
         [Text]
         [ConditionalTarget(nameof(TriggeredConditional))]
-        public string ConditionallyTriggeredAlso { get; set; }
+        public string? ConditionallyTriggeredAlso { get; set; }
 
         public class ListOfOptionsDataSource : IChoiceDataSource
         {
@@ -148,7 +120,7 @@ namespace Storm.Formification.Web.Forms
                     var result = JsonConvert.DeserializeObject<Root>(data);
                     if (result.status == 200)
                     {
-                        return result.result.GroupBy(g => g.nhs_ha).SelectMany(c => c.Select(s => new ChoiceItem(s.postcode, s.postcode, c.Key)));
+                        return result.result.GroupBy(g => g.nhs_ha).SelectMany(c => c.Select(s => s != null && s.postcode != null ? new ChoiceItem(s.postcode, s.postcode, c.Key) : new ChoiceItem()));
                     }
                 }
                 catch
@@ -168,7 +140,10 @@ namespace Storm.Formification.Web.Forms
                     if (result.status == 200)
                     {
                         var item = result.result.FirstOrDefault();
-                        return new ChoiceItem(item.postcode, item.postcode);
+                        if (item != null && item.postcode != null)
+                        {
+                            return new ChoiceItem(item.postcode, item.postcode);
+                        }
                     }
                 }
                 catch
@@ -182,14 +157,14 @@ namespace Storm.Formification.Web.Forms
             public class Root
             {
                 public int status { get; set; }
-                public Result[] result { get; set; }
+                public Result[]? result { get; set; }
             }
 
             public class Result
             {
-                public string postcode { get; set; }
-                public string nhs_ha { get; set; }
-                public string primary_care_trust { get; set; }
+                public string? postcode { get; set; }
+                public string? nhs_ha { get; set; }
+                public string? primary_care_trust { get; set; }
 
             }
         }

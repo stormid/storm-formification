@@ -18,7 +18,7 @@ namespace Storm.Formification.Tests
         public class TestForm
         {
             [Forms.Text]
-            public string Field { get; set; }
+            public string? Field { get; set; }
         }
 
         [Fact]
@@ -26,7 +26,7 @@ namespace Storm.Formification.Tests
         {
             var descriptor = FormLayoutDescriptor.Build(typeof(TestForm));
 
-            descriptor.Id.Should().Be(TestFormId);
+            descriptor?.Id.Should().Be(TestFormId);
         }
 
         [Fact]
@@ -34,7 +34,7 @@ namespace Storm.Formification.Tests
         {
             var descriptor = FormLayoutDescriptor.Build(typeof(TestForm));
 
-            descriptor.Name.Should().Be(TestFormName);
+            descriptor?.Name.Should().Be(TestFormName);
         }
 
         [Fact]
@@ -42,8 +42,8 @@ namespace Storm.Formification.Tests
         {
             var descriptor = FormLayoutDescriptor.Build(typeof(TestForm));
 
-            descriptor.HasSections().Should().BeFalse();
-            descriptor.Sections.Should().HaveCount(0);
+            descriptor?.HasSections().Should().BeFalse();
+            descriptor?.Sections.Should().HaveCount(0);
         }
 
         [Fact]
@@ -51,7 +51,7 @@ namespace Storm.Formification.Tests
         {
             var descriptor = FormLayoutDescriptor.Build(typeof(TestForm));
 
-            descriptor.Properties.Should().HaveCount(1);
+            descriptor?.Properties.Should().HaveCount(1);
         }
     }
 
@@ -72,7 +72,7 @@ namespace Storm.Formification.Tests
         {
             var descriptor = FormLayoutDescriptor.Build(typeof(TestForm));
 
-            descriptor.Id.Should().Be(TestFormId);
+            descriptor?.Id.Should().Be(TestFormId);
         }
 
         [Fact]
@@ -80,7 +80,7 @@ namespace Storm.Formification.Tests
         {
             var descriptor = FormLayoutDescriptor.Build(typeof(TestForm));
 
-            descriptor.Name.Should().Be(TestFormName);
+            descriptor?.Name.Should().Be(TestFormName);
         }
 
         [Fact]
@@ -88,8 +88,8 @@ namespace Storm.Formification.Tests
         {
             var descriptor = FormLayoutDescriptor.Build(typeof(TestForm));
 
-            descriptor.HasSections().Should().BeFalse();
-            descriptor.Sections.Should().HaveCount(0);
+            descriptor?.HasSections().Should().BeFalse();
+            descriptor?.Sections.Should().HaveCount(0);
         }
 
         [Fact]
@@ -97,7 +97,7 @@ namespace Storm.Formification.Tests
         {
             var descriptor = FormLayoutDescriptor.Build(typeof(TestForm));
 
-            descriptor.Properties.Should().HaveCount(1);
+            descriptor?.Properties.Should().HaveCount(1);
         }
     }
 
@@ -118,7 +118,7 @@ namespace Storm.Formification.Tests
         {
             var descriptor = FormLayoutDescriptor.Build(typeof(TestForm));
 
-            descriptor.Id.Should().Be(TestFormId);
+            descriptor?.Id.Should().Be(TestFormId);
         }
 
         [Fact]
@@ -126,7 +126,7 @@ namespace Storm.Formification.Tests
         {
             var descriptor = FormLayoutDescriptor.Build(typeof(TestForm));
 
-            descriptor.Name.Should().Be(TestFormName);
+            descriptor?.Name.Should().Be(TestFormName);
         }
 
         [Fact]
@@ -134,8 +134,8 @@ namespace Storm.Formification.Tests
         {
             var descriptor = FormLayoutDescriptor.Build(typeof(TestForm));
 
-            descriptor.HasSections().Should().BeFalse();
-            descriptor.Sections.Should().HaveCount(0);
+            descriptor?.HasSections().Should().BeFalse();
+            descriptor?.Sections.Should().HaveCount(0);
         }
 
         [Fact]
@@ -143,7 +143,7 @@ namespace Storm.Formification.Tests
         {
             var descriptor = FormLayoutDescriptor.Build(typeof(TestForm));
 
-            descriptor.Properties.Should().HaveCount(1);
+            descriptor?.Properties.Should().HaveCount(1);
         }
     }
 
@@ -179,7 +179,7 @@ namespace Storm.Formification.Tests
         {
             var descriptor = FormLayoutDescriptor.Build(typeof(TestForm));
 
-            descriptor.Id.Should().Be(TestFormId);
+            descriptor?.Id.Should().Be(TestFormId);
         }
 
         [Fact]
@@ -187,7 +187,7 @@ namespace Storm.Formification.Tests
         {
             var descriptor = FormLayoutDescriptor.Build(typeof(TestForm));
 
-            descriptor.Name.Should().Be(TestFormName);
+            descriptor?.Name.Should().Be(TestFormName);
         }
 
         [Fact]
@@ -195,8 +195,8 @@ namespace Storm.Formification.Tests
         {
             var descriptor = FormLayoutDescriptor.Build(typeof(TestForm));
 
-            descriptor.HasSections().Should().BeFalse();
-            descriptor.Sections.Should().HaveCount(0);
+            descriptor?.HasSections().Should().BeFalse();
+            descriptor?.Sections.Should().HaveCount(0);
         }
 
         [Fact]
@@ -204,7 +204,7 @@ namespace Storm.Formification.Tests
         {
             var descriptor = FormLayoutDescriptor.Build(typeof(TestForm));
 
-            descriptor.Properties.Should().HaveCount(6);
+            descriptor?.Properties.Should().HaveCount(6);
         }
     }
 
@@ -217,7 +217,7 @@ namespace Storm.Formification.Tests
         public class TestForm
         {
             [Forms.Text]
-            public string TextField { get; set; }
+            public string? TextField { get; set; }
         }
 
         [Fact]
@@ -225,7 +225,7 @@ namespace Storm.Formification.Tests
         {
             var descriptor = FormLayoutDescriptor.Build(typeof(TestForm));
 
-            descriptor.Id.Should().Be(TestFormId);
+            descriptor?.Id.Should().Be(TestFormId);
         }
 
         [Fact]
@@ -233,7 +233,7 @@ namespace Storm.Formification.Tests
         {
             var descriptor = FormLayoutDescriptor.Build(typeof(TestForm));
 
-            descriptor.Name.Should().Be(TestFormName);
+            descriptor?.Name.Should().Be(TestFormName);
         }
 
         [Fact]
@@ -241,8 +241,8 @@ namespace Storm.Formification.Tests
         {
             var descriptor = FormLayoutDescriptor.Build(typeof(TestForm));
 
-            descriptor.HasSections().Should().BeFalse();
-            descriptor.Sections.Should().HaveCount(0);
+            descriptor?.HasSections().Should().BeFalse();
+            descriptor?.Sections.Should().HaveCount(0);
         }
 
         [Fact]
@@ -250,7 +250,7 @@ namespace Storm.Formification.Tests
         {
             var descriptor = FormLayoutDescriptor.Build(typeof(TestForm));
 
-            descriptor.Properties.Should().HaveCount(1);
+            descriptor?.Properties.Should().HaveCount(1);
         }
     }
 
@@ -264,11 +264,7 @@ namespace Storm.Formification.Tests
         {
             [Forms.Text]
             [Forms.Section("SectionName")]
-            public string TextField { get; set; }
-
-            //[Forms.Text]
-            //[Forms.Section("Section2Name")]
-            //public string Text2Field { get; set; }
+            public string? TextField { get; set; }
         }
 
         [Fact]
@@ -276,7 +272,7 @@ namespace Storm.Formification.Tests
         {
             var descriptor = FormLayoutDescriptor.Build(typeof(TestForm));
 
-            descriptor.Id.Should().Be(TestFormId);
+            descriptor?.Id.Should().Be(TestFormId);
         }
 
         [Fact]
@@ -284,7 +280,7 @@ namespace Storm.Formification.Tests
         {
             var descriptor = FormLayoutDescriptor.Build(typeof(TestForm));
 
-            descriptor.Name.Should().Be(TestFormName);
+            descriptor?.Name.Should().Be(TestFormName);
         }
 
         [Fact]
@@ -292,8 +288,8 @@ namespace Storm.Formification.Tests
         {
             var descriptor = FormLayoutDescriptor.Build(typeof(TestForm));
 
-            descriptor.HasSections().Should().BeTrue();
-            descriptor.Sections.Should().HaveCount(1);
+            descriptor?.HasSections().Should().BeTrue();
+            descriptor?.Sections.Should().HaveCount(1);
         }
 
         [Fact]
@@ -301,7 +297,7 @@ namespace Storm.Formification.Tests
         {
             var descriptor = FormLayoutDescriptor.Build(typeof(TestForm));
 
-            descriptor.Properties.Should().HaveCount(1);
+            descriptor?.Properties.Should().HaveCount(1);
         }
     }
 
@@ -315,11 +311,11 @@ namespace Storm.Formification.Tests
         {
             [Forms.Text]
             [Forms.Section("SectionName")]
-            public string TextField { get; set; }
+            public string? TextField { get; set; }
 
             [Forms.Text]
             [Forms.Section("Section2Name")]
-            public string Text2Field { get; set; }
+            public string? Text2Field { get; set; }
         }
 
         [Fact]
@@ -327,7 +323,7 @@ namespace Storm.Formification.Tests
         {
             var descriptor = FormLayoutDescriptor.Build(typeof(TestForm));
 
-            descriptor.Id.Should().Be(TestFormId);
+            descriptor?.Id.Should().Be(TestFormId);
         }
 
         [Fact]
@@ -335,7 +331,7 @@ namespace Storm.Formification.Tests
         {
             var descriptor = FormLayoutDescriptor.Build(typeof(TestForm));
 
-            descriptor.Name.Should().Be(TestFormName);
+            descriptor?.Name.Should().Be(TestFormName);
         }
 
         [Fact]
@@ -343,8 +339,8 @@ namespace Storm.Formification.Tests
         {
             var descriptor = FormLayoutDescriptor.Build(typeof(TestForm));
 
-            descriptor.HasSections().Should().BeTrue();
-            descriptor.Sections.Should().HaveCount(2);
+            descriptor?.HasSections().Should().BeTrue();
+            descriptor?.Sections.Should().HaveCount(2);
         }
 
         [Fact]
@@ -352,7 +348,7 @@ namespace Storm.Formification.Tests
         {
             var descriptor = FormLayoutDescriptor.Build(typeof(TestForm));
 
-            descriptor.Properties.Should().HaveCount(2);
+            descriptor?.Properties.Should().HaveCount(2);
         }
     }
 
@@ -365,10 +361,10 @@ namespace Storm.Formification.Tests
         public class TestForm
         {
             [Forms.Boolean(ConditionalTrigger = nameof(TextField))]
-            public string TextField { get; set; }
+            public string? TextField { get; set; }
 
             [Forms.Text]
-            public string Text2Field { get; set; }
+            public string? Text2Field { get; set; }
         }
         
         [Fact]
@@ -376,7 +372,7 @@ namespace Storm.Formification.Tests
         {
             var descriptor = FormLayoutDescriptor.Build(typeof(TestForm));
 
-            descriptor.Properties.Should().HaveCount(2);
+            descriptor?.Properties.Should().HaveCount(2);
         }
 
         [Fact]
@@ -384,7 +380,7 @@ namespace Storm.Formification.Tests
         {
             var descriptor = FormLayoutDescriptor.Build(typeof(TestForm));
 
-            var conditionalTriggers = descriptor.Properties.Select(p => p.GetConditionalTrigger()).Where(s => s != null).ToList();
+            var conditionalTriggers = descriptor?.Properties.Select(p => p.GetConditionalTrigger()).Where(s => s != null).ToList();
             var conditionalTrigger = conditionalTriggers.FirstOrDefault();
 
             conditionalTriggers.Should().HaveCount(1);

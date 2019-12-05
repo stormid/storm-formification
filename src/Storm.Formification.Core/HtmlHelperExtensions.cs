@@ -8,6 +8,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using static Storm.Formification.Core.Forms;
 
 namespace Storm.Formification.Core
 {
@@ -107,7 +108,7 @@ namespace Storm.Formification.Core
             {
                 items.AddRange(htmlHelper.GetEnumSelectList(type));
             }
-            else if (type.IsGenericType && type.GenericTypeArguments.FirstOrDefault().IsEnum)
+            else if ((type?.IsGenericType ?? false) && type.GenericTypeArguments.FirstOrDefault().IsEnum)
             {
                 items.AddRange(htmlHelper.GetEnumSelectList(type.GenericTypeArguments.FirstOrDefault()));
             }
@@ -124,6 +125,13 @@ namespace Storm.Formification.Core
             var dataSourceSelector = htmlHelper.ViewContext.HttpContext.RequestServices.GetRequiredService<IChoiceDataSourceSelector>();
 
             return await dataSourceSelector.GetChoiceItemForModelAsync(htmlHelper.ViewData);
+        }
+
+        public static IInfo? GetCurrentFormInfo(this IHtmlHelper htmlHelper)
+        {
+            var formLocator = htmlHelper.ViewContext.HttpContext.RequestServices.GetRequiredService<IFormLocator>();
+
+            return formLocator.Info(htmlHelper.ViewData.GetFormType());
         }
     }
 }

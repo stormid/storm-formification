@@ -24,19 +24,19 @@ namespace Storm.Formification.Web.Forms
     public class ContactForm
     {
         [Text]
-        public string Firstname { get; set; }
+        public string? Firstname { get; set; }
 
         [Text]
-        public string MiddleNames { get; set; }
+        public string? MiddleNames { get; set; }
 
         [Text]
-        public string Lastname { get; set; }
+        public string? Lastname { get; set; }
 
         [Choice]
         public PersonGenderType Gender { get; set; }
         
         [Email]
-        public string Email { get; set; }
+        public string? Email { get; set; }
 
         [Date]
         [DisplayName("Date of birth")]
@@ -47,7 +47,7 @@ namespace Storm.Formification.Web.Forms
         public DateTime? PreferredDate { get; set; }
 
         [Upload]
-        public IFormFile Passport { get; set; }
+        public IFormFile? Passport { get; set; }
     }
 
     public class Validator : AbstractValidator<ContactForm>

@@ -16,7 +16,7 @@ namespace Storm.Formification.Core
             return (assemblies?.Union(new[] { typeof(Forms).Assembly }) ?? new[] { typeof(Forms).Assembly }).ToArray();
         }
 
-        private static Type[] FindChoiceDatasourceTypes(Assembly[] assemblies)
+        private static Type[]? FindChoiceDatasourceTypes(Assembly[] assemblies)
         {
             return assemblies?.SelectMany(a => a
                     .GetExportedTypes()
@@ -45,7 +45,7 @@ namespace Storm.Formification.Core
         private static IServiceCollection AddChoiceDataSources(this IServiceCollection services, params Assembly[] assemblies)
         {
             services.TryAddScoped<IChoiceDataSourceSelector, DefaultChoiceDataSourceSelector>();
-            foreach (var datasourceType in FindChoiceDatasourceTypes(assemblies))
+            foreach (var datasourceType in FindChoiceDatasourceTypes(assemblies) ?? Enumerable.Empty<Type>())
             {
                 services.TryAddScoped(datasourceType);
             }
@@ -59,7 +59,8 @@ namespace Storm.Formification.Core
             if (!formType.IsAbstract && formType.IsClass && formType.GetConstructor(Type.EmptyTypes) != null)
             {
                 var formActionServiceType = typeof(IFormActions<>).MakeGenericType(formType);
-                var formActionImplType = typeof(DefaultFormActions<>).MakeGenericType(formType);
+                var handlerImplType = formType.GetCustomAttribute<HandlerAttribute>()?.HandlerType;
+                var formActionImplType = handlerImplType != null && formActionServiceType.IsAssignableFrom(handlerImplType) ? handlerImplType : typeof(DefaultFormActions<>).MakeGenericType(formType);
 
                 services.TryAddScoped(formActionServiceType, formActionImplType);
             }

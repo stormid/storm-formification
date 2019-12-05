@@ -36,7 +36,7 @@ namespace Storm.Formification.Core
 
         public bool HasSections() => Sections.Any();
 
-        public static FormLayoutDescriptor Build(Type type)
+        public static FormLayoutDescriptor? Build(Type type)
         {
             var info = RetrieveFormInfo(type);
             if (info != null)
@@ -47,7 +47,7 @@ namespace Storm.Formification.Core
             return null;
         }
 
-        private static Forms.IInfo RetrieveFormInfo(Type formType)
+        private static Forms.IInfo? RetrieveFormInfo(Type formType)
         {
             var formInfo = formType.GetCustomAttribute<Forms.InfoAttribute>() as Forms.IInfo ?? (formType.IsNestedPublic && formType.DeclaringType.GetCustomAttribute<Forms.InfoAttribute>() is Forms.IInfo fi ? fi : null);
             return formInfo;
@@ -60,12 +60,12 @@ namespace Storm.Formification.Core
 
             var formSections = sections?.Select(section =>
             {
-                var formSection = new FormSection(section.Key, section.Select(p =>
+                var formSection = new FormSection(section?.Key ?? string.Empty, section?.Select(p =>
                 {
                     var formProperty = new FormProperty(p);
                     var triggerAttribute = p.GetCustomAttributes().OfType<Forms.IAmConditionalTriggerAware>()?.FirstOrDefault();
 
-                    if (triggerAttribute != null && !string.IsNullOrWhiteSpace(triggerAttribute.ConditionalTrigger))
+                    if (triggerAttribute?.ConditionalTrigger != null)
                     {
                         formProperty.SetConditionalTrigger(triggerAttribute.ConditionalTrigger);
                     }
@@ -78,8 +78,8 @@ namespace Storm.Formification.Core
                     }
 
                     return formProperty;
-                }));
-
+                }) ?? Enumerable.Empty<FormProperty>());
+                
                 return formSection;
             });
 

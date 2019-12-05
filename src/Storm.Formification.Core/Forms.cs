@@ -16,7 +16,7 @@ namespace Storm.Formification.Core
     {
         public interface IAmConditionalTriggerAware
         {
-            string ConditionalTrigger { get; set; }
+            string? ConditionalTrigger { get; set; }
         }
 
         [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
@@ -125,7 +125,7 @@ namespace Storm.Formification.Core
 
             }
 
-            public string ConditionalTrigger { get; set; }
+            public string? ConditionalTrigger { get; set; }
         }
         
         [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
@@ -248,9 +248,25 @@ namespace Storm.Formification.Core
             }
         }
 
+        [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
+        public class HandlerAttribute : Attribute
+        {
+            public HandlerAttribute(Type handlerType)
+            {
+                if(!handlerType.IsConstructedGenericType || !handlerType.IsClass || handlerType.IsAbstract)
+                {
+                    throw new InvalidCastException($"{nameof(handlerType)} must be a non-abstract, constructable class type");
+                }
+
+                HandlerType = handlerType;
+            }
+
+            public Type HandlerType { get; }
+        }
+
         public interface IFormActions<TForm> where TForm : class, new()
         {
-            Task<TForm> Retrieve(Guid id, CancellationToken cancellationToken = default(CancellationToken));
+            Task<TForm?> Retrieve(Guid id, CancellationToken cancellationToken = default(CancellationToken));
             Task<Guid> Save(Guid id, TForm form, CancellationToken cancellationToken = default(CancellationToken));
         }
 
@@ -258,7 +274,7 @@ namespace Storm.Formification.Core
         {
             public Task<TForm?> Retrieve(Guid id, CancellationToken cancellationToken = default(CancellationToken))
             {
-                return Task.FromResult(new TForm());
+                return Task.FromResult<TForm?>(new TForm());
             }
 
             public Task<Guid> Save(Guid id, TForm form, CancellationToken cancellationToken = default(CancellationToken))

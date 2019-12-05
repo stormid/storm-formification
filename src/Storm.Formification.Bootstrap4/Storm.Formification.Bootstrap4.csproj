@@ -4,6 +4,8 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <IsPackable>true</IsPackable>
     <Description>Formification is a library that leverages features of AspNetCore Mvc to allow the creation of simple data input forms</Description>
+    <PackageIcon>storm-id-logo.png</PackageIcon>
+    <PackageIconUrl />
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,5 +15,12 @@
   <ItemGroup>
     <ProjectReference Include="..\Storm.Formification.Core\Storm.Formification.Core.csproj" />
     <ProjectReference Include="..\Storm.Formification.TagHelpers\Storm.Formification.TagHelpers.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="storm-id-logo.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 </Project>

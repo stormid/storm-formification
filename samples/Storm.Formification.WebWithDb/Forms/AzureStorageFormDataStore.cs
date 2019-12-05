@@ -18,7 +18,7 @@ namespace Storm.Formification.WebWithDb.Forms
             blobClient = cloudStorageAccount.CreateCloudBlobClient();
         }
 
-        public async Task<TForm> Retrieve(string documentId, string secretId)
+        public async Task<TForm?> Retrieve(string documentId, string secretId)
         {
             var container = blobClient.GetContainerReference(typeof(TForm).Name.ToLowerInvariant());
             await container.CreateIfNotExistsAsync();

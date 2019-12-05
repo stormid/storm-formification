@@ -12,7 +12,7 @@ namespace Storm.Formification.WebWithDb.Forms.Preferences
         [Section("Personal")]
         [Text]
         [HintLabel("Who are you?")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         [Section("Personal")]
         [Date]
@@ -22,10 +22,10 @@ namespace Storm.Formification.WebWithDb.Forms.Preferences
         [HintLabel("Select a user")]
         [Choice]
         [ChoiceDataSource(typeof(AvailableUsersDatasource))]
-        public string Email { get; set; }
+        public string? Email { get; set; }
 
         [Section("Misc")]
         [MultilineText]
-        public string Notes { get; set; }
+        public string? Notes { get; set; }
     }
 }

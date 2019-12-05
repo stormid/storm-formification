@@ -12,8 +12,8 @@ namespace Storm.Formification.Web.Controllers
     public class FormModel
     {
         public Guid Id { get; set; }
-        public BankAccountForm BankAccount { get; set; }
-        public PetForm Pet { get; set; }
+        public BankAccountForm? BankAccount { get; set; }
+        public PetForm? Pet { get; set; }
     }
 
     [Route("[controller]/[action]")]
