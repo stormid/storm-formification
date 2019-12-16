@@ -93,7 +93,7 @@ namespace Storm.Formification.Core.Infrastructure
 
             if (!dateValue.HasValue)
             {
-                bindingContext.ModelState.TryAddModelError(bindingContext.ModelName, $"'{bindingContext.ModelMetadata.DisplayName}' must be a valid month and year");
+                bindingContext.ModelState.TryAddModelError(bindingContext.ModelName, $"'{bindingContext.ModelMetadata.DisplayName}' must be a valid month and 2 digit year");
                 bindingContext.Result = ModelBindingResult.Failed();
             }
             else
