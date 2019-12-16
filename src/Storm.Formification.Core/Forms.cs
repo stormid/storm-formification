@@ -1,9 +1,8 @@
 ﻿using Humanizer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using Storm.Formification.Core.Infrastructure;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -17,6 +16,15 @@ namespace Storm.Formification.Core
         public interface IAmConditionalTriggerAware
         {
             string? ConditionalTrigger { get; set; }
+        }
+
+        [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
+        public sealed class PreventBrowserAutocomplete : AdditionalMetadataAttribute
+        {
+            public const string Key = "__Formification_PreventBrowserAutocomplete";
+            public PreventBrowserAutocomplete() : base(Key, true)
+            {
+            }
         }
 
         [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
@@ -54,6 +62,8 @@ namespace Storm.Formification.Core
         [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
         public class TextAttribute : DataTypeAttribute
         {
+            public bool PreventAutoComplete { get; set; } = false;
+
             public TextAttribute() : base("Forms__Text")
             {
 

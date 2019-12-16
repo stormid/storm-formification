@@ -47,12 +47,16 @@ namespace Storm.Formification.Web.Forms
         [Text]
         public string? NameOnCard { get; set; }
 
+        [Text]
+        [PreventBrowserAutocomplete]
+        public string? CreditCardNumber { get; set; }
+
         [DateMonthYear]
-        [Required]
+        [PreventBrowserAutocomplete]
         public string? ValidFrom { get; set; }
 
         [DateMonthYear]
-        [Required]
+        [PreventBrowserAutocomplete]
         public string? ValidTo { get; set; }
     }
 }

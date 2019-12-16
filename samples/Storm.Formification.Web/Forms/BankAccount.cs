@@ -31,10 +31,12 @@ namespace Storm.Formification.Web.Forms
 
         [Section("About your account")]
         [Text]
+        [PreventBrowserAutocomplete]
         public string? SortCode { get; set; }
 
         [Text]
         [Section("About your account")]
+        [PreventBrowserAutocomplete]
         public string? AccountNumber { get; set; }
     }
 }
