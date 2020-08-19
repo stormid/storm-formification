@@ -13,6 +13,9 @@ using Microsoft.EntityFrameworkCore;
 using Storm.Formification.WebWithDb.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+#if NETCOREAPP3_1
+using Microsoft.Extensions.Hosting;
+#endif
 using Storm.Formification.Core;
 using MediatR;
 using static Storm.Formification.Core.Forms;
@@ -41,14 +44,24 @@ namespace Storm.Formification.WebWithDb
             });
 
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>().AddDefaultUI(UIFramework.Bootstrap4).AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddDefaultIdentity<IdentityUser>()
+#if NETCOREAPP3_1
+                .AddDefaultUI()
+#else
+                .AddDefaultUI(UIFramework.Bootstrap4)
+#endif
+                .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddMediatR(typeof(Startup).Assembly);
 
             services.AddMvc()
                 .ConfigureForms(typeof(Startup).Assembly)
                 .EnableFormsController(typeof(Startup).Assembly)
+#if NETCOREAPP3_1
+                .SetCompatibilityVersion(CompatibilityVersion.Latest);
+#else
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+#endif
 
             services.AddHttpContextAccessor();
 
@@ -57,7 +70,11 @@ namespace Storm.Formification.WebWithDb
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+#if  NETCOREAPP3_1
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+#else
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+#endif
         {
             if (env.IsDevelopment())
             {
@@ -77,12 +94,23 @@ namespace Storm.Formification.WebWithDb
 
             app.UseAuthentication();
 
+#if NETCOREAPP3_1
+            app.UseRouting();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
+            });
+#else
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+#endif
         }
     }
 }

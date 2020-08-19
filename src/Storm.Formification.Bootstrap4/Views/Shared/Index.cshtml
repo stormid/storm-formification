@@ -1,5 +1,5 @@
 ﻿<div class="col-md-8 col-lg-6 form-horziontal">
-    <form method="post" enctype="multipart/form-data" asp-antiforgery="true" asp-route-id="@ViewData?["id"]">
+    <form method="post" enctype="multipart/form-data" asp-antiforgery="true" asp-route-id="@(ViewData?["id"])">
         @Html.RenderFormForModel()
         <div class="form-row mt-3">
             <input type="submit" value="Submit" />

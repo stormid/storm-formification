@@ -1,15 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>netcoreapp3.1;netstandard2.0</TargetFrameworks>
     <IsPackable>true</IsPackable>
     <Description>Formification is a library that leverages features of AspNetCore Mvc to allow the creation of simple data input forms</Description>
     <PackageIcon>storm-id-logo.png</PackageIcon>
     <PackageIconUrl />
   </PropertyGroup>
 
-  <ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' != 'netcoreapp3.1'">
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Humanizer.Core.uk" Version="2.6.2" />
     <None Include="storm-id-logo.png">
       <Pack>True</Pack>
