@@ -10,9 +10,7 @@ Setup<Configuration>(Configuration.Create);
 #load ".cake/Restore-DotNetCore.cake"
 #load ".cake/Build-DotNetCore.cake"
 #load ".cake/Test-DotNetCore.cake"
-#load ".cake/Publish-Zip-DotNetCore.cake"
 #load ".cake/Publish-Pack-DotNetCore.cake"
-#load ".cake/Artifacts-DotNetCore-Ef.cake"
 // -------------
 
 Task("Restore:DotNetCore:Tools")

@@ -9,6 +9,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+#if NETCOREAPP3_1
+using Microsoft.Extensions.Hosting;
+#endif
 using Storm.Formification.Web.Infrastructure;
 using Storm.Formification.Web.Forms;
 using static Storm.Formification.Core.Forms;
@@ -36,7 +39,14 @@ namespace Storm.Formification.Web
 
             services.AddRouting(o => { o.LowercaseUrls = true; });
 
-            var formAssemblies = new[] { Assembly.GetEntryAssembly() }.ToArray();
+            var formAssemblies = new[]
+            {
+#if NETCOREAPP3_1
+                Assembly.GetEntryAssembly()!
+#else
+                Assembly.GetEntryAssembly()
+#endif
+            }.ToArray();
 
             services.AddMediatR(typeof(Startup));
             services.AddMemoryCache();
@@ -45,13 +55,17 @@ namespace Storm.Formification.Web
                 .AddMvc()
                 .ConfigureForms(formAssemblies).EnableFormsController(formAssemblies)
                 .AddFluentValidation(c => c.RegisterValidatorsFromAssemblyContaining<Startup>())
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+                .SetCompatibilityVersion(CompatibilityVersion.Latest);
 
             services.AddHttpClient();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+#if  NETCOREAPP3_1
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+#else
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+#endif
         {
             if (env.IsDevelopment())
             {
@@ -68,17 +82,36 @@ namespace Storm.Formification.Web
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
+
+#if NETCOREAPP3_1
+            app.UseRouting();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapAreaControllerRoute(
+                    name: "forms",
+                    pattern: "{controller}/{action=Index}/{id?}",
+                    areaName: "forms");
+
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+                endpoints.MapRazorPages();
+            });
+#else
             app.UseMvc(routes =>
             {
-                routes.MapAreaRoute(
-                    name: "forms",
-                    areaName: "forms",
-                    template: "{controller}/{action=Index}/{id?}");
-
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+
+                routes.MapAreaRoute(
+                    name: "forms",
+                    areaName: "forms",
+                    template: "{controller}/{action=Index}/{id?}"
+                );
             });
+#endif
         }
     }
 }
