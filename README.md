@@ -1,10 +1,10 @@
 # Storm.Formification
 
-This repo contains prototype code that is designed as the basis of a code-first form building library that can be used to rapidly create data entry forms with rich validation and presentation logic
+This repo contains code that is the basis of a code-first form building library that can be used to rapidly create data entry forms with rich validation and presentation logic.
 
 # Initialisation
 
-The form builder library is supplied as a separate package that contains code and custom razor views and templates.  To use the package include it via NuGet (when it is available).
+The form builder library is supplied as a separate package that contains code and custom razor views and templates.  To use the package include it [via NuGet](https://www.nuget.org/packages/Storm.Formification.Core).
 
 ```
 Install-Package Storm.Formification.Core
