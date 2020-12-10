@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Storm.Formification.Core
 {
-    public static class Forms
+    public static partial class Forms
     {
         public interface IAmConditionalTriggerAware
         {
@@ -196,26 +196,21 @@ namespace Storm.Formification.Core
             }
         }
 
-        public interface IInfo
-        {
-            string Slug { get; }
-            string Name { get; }
-            string Id { get; }
-        }
-
         [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
         public sealed class InfoAttribute : Attribute, IInfo
         {
-            public InfoAttribute(string name, string id)
+            public InfoAttribute(string name, string id, int version)
             {
                 Name = name;
                 Id = id;
                 Slug = name.Kebaberize();
+                Version = version;
             }
 
             public string Slug { get; set; }
             public string Name { get; }
             public string Id { get; }
+            public string Version { get; set; }
         }
 
         [AttributeUsage(AttributeTargets.Property, Inherited = false, AllowMultiple = false)]
