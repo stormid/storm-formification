@@ -12,8 +12,8 @@ namespace Storm.Formification.Tests
     public class FormLocatorTests
     {
         public const string TestEmptyFormId = "a0dcb904-271a-4475-878c-2c6059fcc307";
-
-        [Forms.Info("Test empty form", TestEmptyFormId)]
+        private const int Version = 1;
+        [Forms.Info("Test empty form", TestEmptyFormId,Version)]
         public class TestEmptyForm
         {
 

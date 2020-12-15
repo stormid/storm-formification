@@ -2,9 +2,11 @@
 
 namespace Storm.Formification.Web.Forms
 {
-    [Info("Bank Account", "1557f06a-9908-4c5a-aa84-04036c6c16bb")]
+    [Info("Bank Account", "1557f06a-9908-4c5a-aa84-04036c6c16bb",Version)]
     public class BankAccountForm
     {
+        private const int Version = 1;
+
         [Text]
         [Section("About your bank")]
         public string? NameOfBank { get; set; }

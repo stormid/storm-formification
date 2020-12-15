@@ -13,8 +13,9 @@ namespace Storm.Formification.Tests
     {
         private const string TestFormId = "9e015411-a682-4942-b8d7-e30c0ea5c9af";
         private const string TestFormName = "test form";
+        private const int Version = 1;
 
-        [Forms.Info(TestFormName, TestFormId)]
+        [Forms.Info(TestFormName, TestFormId,Version)]
         public class TestForm
         {
             [Forms.Text]
@@ -59,8 +60,8 @@ namespace Storm.Formification.Tests
     {
         private const string TestFormId = "9e015411-a682-4942-b8d7-e30c0ea5c9af";
         private const string TestFormName = "test form";
-
-        [Forms.Info(TestFormName, TestFormId)]
+        private const int Version = 1;
+        [Forms.Info(TestFormName, TestFormId,1)]
         public class TestForm
         {
             [Forms.Boolean]
@@ -105,8 +106,8 @@ namespace Storm.Formification.Tests
     {
         private const string TestFormId = "9e015411-a682-4942-b8d7-e30c0ea5c9af";
         private const string TestFormName = "test form";
-
-        [Forms.Info(TestFormName, TestFormId)]
+        private const int Version = 1;
+        [Forms.Info(TestFormName, TestFormId,Version)]
         public class TestForm
         {
             [Forms.Date]
@@ -151,8 +152,8 @@ namespace Storm.Formification.Tests
     {
         private const string TestFormId = "9e015411-a682-4942-b8d7-e30c0ea5c9af";
         private const string TestFormName = "test form";
-
-        [Forms.Info(TestFormName, TestFormId)]
+        private const int Version = 1;
+        [Forms.Info(TestFormName, TestFormId,Version)]
         public class TestForm
         {
             [Forms.Numeric]
@@ -212,8 +213,9 @@ namespace Storm.Formification.Tests
     {
         private const string TestFormId = "9e015411-a682-4942-b8d7-e30c0ea5c9af";
         private const string TestFormName = "test form";
+        private const int Version = 1;
 
-        [Forms.Info(TestFormName, TestFormId)]
+        [Forms.Info(TestFormName, TestFormId,Version)]
         public class TestForm
         {
             [Forms.Text]
@@ -258,8 +260,8 @@ namespace Storm.Formification.Tests
     {
         private const string TestFormId = "9e015411-a682-4942-b8d7-e30c0ea5c9af";
         private const string TestFormName = "test form";
-
-        [Forms.Info(TestFormName, TestFormId)]
+        private const int Version = 1;
+        [Forms.Info(TestFormName, TestFormId,Version)]
         public class TestForm
         {
             [Forms.Text]
@@ -305,8 +307,8 @@ namespace Storm.Formification.Tests
     {
         private const string TestFormId = "9e015411-a682-4942-b8d7-e30c0ea5c9af";
         private const string TestFormName = "test form";
-
-        [Forms.Info(TestFormName, TestFormId)]
+        private const int Version = 1;
+        [Forms.Info(TestFormName, TestFormId,Version)]
         public class TestForm
         {
             [Forms.Text]
@@ -356,8 +358,8 @@ namespace Storm.Formification.Tests
     {
         private const string TestFormId = "9e015411-a682-4942-b8d7-e30c0ea5c9af";
         private const string TestFormName = "test form";
-
-        [Forms.Info(TestFormName, TestFormId)]
+        private const int Version = 1;
+        [Forms.Info(TestFormName, TestFormId,Version)]
         public class TestForm
         {
             [Forms.Boolean(ConditionalTrigger = nameof(TextField))]

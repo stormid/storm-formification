@@ -7,10 +7,11 @@ using static Storm.Formification.Core.Forms;
 
 namespace Storm.Formification.Web.Forms
 {
-    [Info("Form with sections", Id)]
+    [Info("Form with sections", Id,Version)]
     public class FormWithSections
     {
         public const string Id = "form-with-sections-1";
+        private const int Version = 1;
 
         [Text, Section("About me")]
         public string? Title { get; set; }

@@ -34,11 +34,11 @@ namespace Storm.Formification.Web.Forms
         }
     }
 
-    [Info("Credit card", Id)]
+    [Info("Credit card", Id,Version)]
     public class CreditCard
     {
         public const string Id = "69CE927B-0315-4DD0-91AB-08ED483EEE95";
-
+        private const int Version = 1;
         [Text]
         [Required]
         [MaxLength(25)]
