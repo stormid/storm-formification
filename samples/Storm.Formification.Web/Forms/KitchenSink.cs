@@ -15,9 +15,10 @@ using System.Threading;
 
 namespace Storm.Formification.Web.Forms
 {
-    [Info("Kitchen sink", "85f6c9a9-f223-40ad-8b03-4c655ba761f7")]
+    [Info("Kitchen sink", "85f6c9a9-f223-40ad-8b03-4c655ba761f7",Version)]
     public class KitchenSink
     {
+        private const int Version = 1;
         [Text]
         public string? StringField { get; set; }
 

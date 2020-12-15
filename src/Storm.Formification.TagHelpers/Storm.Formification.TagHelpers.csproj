@@ -6,6 +6,7 @@
     <Description>Formification is a library that leverages features of AspNetCore Mvc to allow the creation of simple data input forms</Description>
     <PackageIcon>storm-id-logo.png</PackageIcon>
     <PackageIconUrl />
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">

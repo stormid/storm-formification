@@ -210,7 +210,7 @@ namespace Storm.Formification.Core
             public string Slug { get; set; }
             public string Name { get; }
             public string Id { get; }
-            public string Version { get; set; }
+            public int Version { get; set; }
         }
 
         [AttributeUsage(AttributeTargets.Property, Inherited = false, AllowMultiple = false)]

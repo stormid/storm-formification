@@ -6,9 +6,11 @@ using static Storm.Formification.Core.Forms;
 
 namespace Storm.Formification.WebWithDb.Forms.Preferences
 {
-    [Info("Preferences", "2a0467a7-ae00-40ef-b1c3-8b009c1b32bb")]
+    [Info("Preferences", "2a0467a7-ae00-40ef-b1c3-8b009c1b32bb",Version)]
     public class PreferencesForm
     {
+        private const int Version = 1;
+
         [Section("Personal")]
         [Text]
         [HintLabel("Who are you?")]
